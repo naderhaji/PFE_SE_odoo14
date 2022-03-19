@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="session_list_view">
+            <field name="name">Session Formation list</field>
+            <field name="model">formation.formation</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id_session_formation"/>
+                    <field name="nom_session_formation"/>
+                    <field name="niveau_session_formation"/>
+                    <field name="nombre_participant"/>
+                    <field name="objectif_global"/>
+                    <field name="date_debut"/>
+                    <field name="date_fin"/>
+                    <field name="prix"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- explicit form view definition -->
+
+        <record model="ir.ui.view" id="session_form_view">
+            <field name="name">Session Formation Form</field>
+            <field name="model">formation.formation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="id_session_formation"/>
+                            <field name="nom_session_formation"/>
+                            <field name="niveau_session_formation"/>
+                            <field name="nombre_participant"/>
+                        </group>
+                        <group>
+                            <field name="objectif_global"/>
+                            <field name="date_debut"/>
+                            <field name="date_fin"/>
+                            <field name="prix"/>
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="session_action_window">
+            <field name="name">Session Formation</field>
+            <field name="res_model">formation.formation</field>
+            <field name="view_mode">tree,kanban,form</field>
+        </record>
+
+
+        <!-- server action to the one above -->
+        <!--
+            <record model="ir.actions.server" id="formation.action_server">
+              <field name="name">Formation server</field>
+              <field name="model_id" ref="model_formation_formation"/>
+              <field name="state">code</field>
+              <field name="code">
+                action = {
+                  "type": "ir.actions.act_window",
+                  "view_mode": "tree,form",
+                  "res_model": model._name,
+                }
+              </field>
+            </record>
+        -->
+
+        <!-- Top menu item -->
+
+        <menuitem name="Formation" id="formation.menu_root"/>
+
+        <!-- menu categories -->
+
+        <menuitem name="Session" id="Session_formation_cat" parent="formation.menu_root"/>
+        <!-- <menuitem name="Menu 2" id="formation.menu_2" parent="formation.menu_root"/> -->
+
+        <!-- actions -->
+
+        <menuitem name="List of Session" id="session_formation_list" parent="Session_formation_cat"
+                  action="session_action_window"/>
+        <!--   <menuitem name="Server to list" id="formation" parent="formation.menu_2"
+                     action="formation.action_server"/>
+       -->
+    </data>
+</odoo>

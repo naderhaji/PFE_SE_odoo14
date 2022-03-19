@@ -1,0 +1,77 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="theme_list_view">
+            <field name="name">Theme list</field>
+            <field name="model">formation.theme</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id_theme"/>
+                    <field name="designation"/>
+
+
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- explicit form view definition -->
+
+        <record model="ir.ui.view" id="formateur_form_view">
+            <field name="name">Theme Form</field>
+            <field name="model">formation.theme</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="id_theme"/>
+                    <field name="designation"/>
+
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="theme_action_window">
+            <field name="name">Theme</field>
+            <field name="res_model">formation.theme</field>
+            <field name="view_mode">tree,kanban,form</field>
+        </record>
+
+
+        <!-- server action to the one above -->
+        <!--
+            <record model="ir.actions.server" id="formation.action_server">
+              <field name="name">Formation server</field>
+              <field name="model_id" ref="model_formation_formation"/>
+              <field name="state">code</field>
+              <field name="code">
+                action = {
+                  "type": "ir.actions.act_window",
+                  "view_mode": "tree,form",
+                  "res_model": model._name,
+                }
+              </field>
+            </record>
+        -->
+
+
+
+        <!-- menu categories -->
+
+        <menuitem name="Theme" id="Theme_formation_cat" parent="formation.menu_root"/>
+        <!-- <menuitem name="Menu 2" id="formation.menu_2" parent="formation.menu_root"/> -->
+
+        <!-- actions -->
+
+        <menuitem name="List of Formateur" id="theme_formation_list" parent="Theme_formation_cat"
+                  action="theme_action_window"/>
+        <!--   <menuitem name="Server to list" id="formation" parent="formation.menu_2"
+                     action="formation.action_server"/>
+       -->
+    </data>
+</odoo>
