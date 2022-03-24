@@ -5,6 +5,7 @@ from odoo import models, fields, api
 
 class sessionformation(models.Model):
      _name = 'formation.formation'
+     _inherit = 'mail.thread'
      _description = 'formation.formation'
 
      id_session_formation = fields.Integer('Id Session Formation')

@@ -28,6 +28,7 @@
             <field name="model">formation.formation</field>
             <field name="arch" type="xml">
                 <form>
+                    <sheet>
                     <group>
                         <group>
                             <field name="id_session_formation"/>
@@ -42,7 +43,11 @@
                             <field name="prix"/>
                         </group>
                     </group>
-
+                    </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"></field>
+                    <field name="message_ids" widget="mail_thread"></field>
+                </div>
                 </form>
             </field>
         </record>
