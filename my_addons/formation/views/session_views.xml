@@ -13,8 +13,10 @@
                     <field name="nombre_participant"/>
                     <field name="objectif_global"/>
                     <field name="date_debut"/>
+                    <field name="periode"/>
                     <field name="date_fin"/>
                     <field name="prix"/>
+                    <field name="state"/>
 
                 </tree>
             </field>
@@ -28,37 +30,132 @@
             <field name="model">formation.formation</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <field name="state" widget="statusbar" options="{'clickable' : '1'}" />
+                    </header>
                     <sheet>
-                    <group>
                         <group>
-                            <field name="id_session_formation"/>
-                            <field name="nom_session_formation"/>
-                            <field name="niveau_session_formation"/>
-                            <field name="nombre_participant"/>
+                            <group>
+                                <field name="id_session_formation"/>
+                                <field name="nom_session_formation"/>
+                                <field name="niveau_session_formation"/>
+                                <field name="nombre_participant"/>
+                            </group>
+                            <group>
+                                <field name="objectif_global"/>
+                                <field name="date_debut"/>
+                                <field name="date_fin"/>
+                                <field name="periode"/>
+                                <field name="prix"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="objectif_global"/>
-                            <field name="date_debut"/>
-                            <field name="date_fin"/>
-                            <field name="prix"/>
-                        </group>
-                    </group>
                     </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"></field>
-                    <field name="message_ids" widget="mail_thread"></field>
-                </div>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
 
+        <!-- Kanban view -->
 
+        <record id="view_session_kanban" model="ir.ui.view">
+            <field name="name">session.formation.kanban</field>
+            <field name="model">formation.formation</field>
+            <field name="arch" type="xml">
+                <kanban default_order="id asc">
+                    <field name="id_session_formation"/>
+                    <field name="nom_session_formation"/>
+                    <field name="niveau_session_formation"/>
+
+                    <field name="nombre_participant"/>
+                    <field name="objectif_global"/>
+                    <field name="date_debut"/>
+                    <field name="date_fin"/>
+                    <field name="periode"/>
+                    <field name="prix"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <ul>
+                                        <li>
+
+                                            ID:
+                                            <field name="id_session_formation"/>
+                                        </li>
+                                        <li>
+
+                                            Name:
+                                            <field name="nom_session_formation"/>
+                                        </li>
+                                        <li>
+
+                                            Nombre Participant:
+                                            <field name="nombre_participant"/>
+                                        </li>
+                                        <li>
+
+                                            Date Début:
+                                            <field name="date_debut"/>
+                                        </li>
+                                        <li>
+
+                                            Date Fin:
+                                            <field name="date_fin"/>
+
+                                        </li>
+                                        <li>
+
+                                            Prix:
+                                            <field name="prix"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- calendar view -->
+        <record model="ir.ui.view" id="session_calendar_view">
+            <field name="name">calendar</field>
+            <field name="model">formation.formation</field>
+            <field name="arch" type="xml">
+                <calendar string="Session Calendar" date_start="date_debut" date_stop="date_fin">
+
+                </calendar>
+            </field>
+        </record>
+
+        <!-- search view  -->
+
+        <record model="ir.ui.view" id="session_search_view">
+            <field name="name">session search</field>
+            <field name="model">formation.formation</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="nom_session_formation"/>
+                </search>
+
+            </field>
+
+        </record>
         <!-- actions opening views on models -->
 
         <record model="ir.actions.act_window" id="session_action_window">
             <field name="name">Session Formation</field>
             <field name="res_model">formation.formation</field>
-            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_mode">tree,kanban,form,calendar</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    créez votre premiére Formation!
+                </p>
+            </field>
         </record>
 
 

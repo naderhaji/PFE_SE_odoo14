@@ -30,21 +30,96 @@
                 <form>
                     <group>
                         <group>
-                    <field name="id_formateur"/>
-                    <field name="nom_formateur"/>
-                    <field name="prenom_formateur"/>
-                    <field name="niveau_etude"/>
+                            <field name="id_formateur"/>
+                            <field name="nom_formateur"/>
+                            <field name="prenom_formateur"/>
+                            <field name="niveau_etude"/>
                         </group>
                         <group>
-                    <field name="cin"/>
-                    <field name="sexe"/>
-                    <field name="email"/>
-                    <field name="phone"/>
+                            <field name="cin"/>
+                            <field name="sexe"/>
+                            <field name="email"/>
+                            <field name="phone"/>
                         </group>
                     </group>
 
                 </form>
             </field>
+        </record>
+
+        <!-- Kanban view -->
+
+        <record id="view_formateur_kanban" model="ir.ui.view">
+            <field name="name">formateur.formation.kanban</field>
+            <field name="model">formation.formateur</field>
+            <field name="arch" type="xml">
+                <kanban default_order="id asc">
+                    <field name="id_formateur"/>
+                    <field name="nom_formateur"/>
+                    <field name="prenom_formateur"/>
+                    <field name="niveau_etude"/>
+                    <field name="cin"/>
+                    <field name="sexe"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <ul>
+                                        <li>
+
+
+                                            ID: <field name="id_formateur"/>
+                                        </li>
+                                        <li>
+
+
+                                            Nom: <field name="nom_formateur"/>
+                                        </li>
+                                        <li>
+
+
+                                           Prénom: <field name="prenom_formateur"/>
+                                        </li>
+                                        <li>
+
+
+                                           Sexe: <field name="sexe"/>
+                                        </li>
+                                        <li>
+
+
+                                           Email: <field name="email"/>
+
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- search view  -->
+
+        <record model="ir.ui.view" id="formateur_search_view">
+            <field name="name">formateur search</field>
+            <field name="model">formation.formateur</field>
+            <field name="arch" type="xml">
+                <search string="Formateur">
+                    <field name="nom_formateur"/>
+                    <field name="prenom_formateur"/>
+                    <separator/>
+                    <filter string="Homme" name="homme" domain="[('sexe', '=' , 'homme')]"/>
+                    <filter string="Femme" name="femme" domain="[('sexe', '=' , 'femme')]"/>
+
+                </search>
+
+            </field>
+
         </record>
 
 
@@ -54,6 +129,11 @@
             <field name="name">Formateur</field>
             <field name="res_model">formation.formateur</field>
             <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    créez votre premier Formateur!
+                </p>
+            </field>
         </record>
 
 
@@ -72,7 +152,6 @@
               </field>
             </record>
         -->
-
 
 
         <!-- menu categories -->

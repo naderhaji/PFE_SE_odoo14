@@ -33,22 +33,125 @@
                 <form>
                     <group>
                         <group>
+                            <field name="id_participant"/>
+                            <field name="nom_participant"/>
+                            <field name="prenom_participant"/>
+                            <field name="niveau_etude"/>
+                        </group>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="sexe"/>
+                            <field name="type"/>
+                            <field name="nom_société"/>
+                            <field name="mode_paiement"/>
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- search view  -->
+
+        <record model="ir.ui.view" id="participant_search_view">
+            <field name="name">participant search</field>
+            <field name="model">formation.participant</field>
+            <field name="arch" type="xml">
+                <search string="Participant">
+                    <field name="nom_participant"/>
+                    <field name="prenom_participant"/>
+                    <separator/>
+                    <filter string="Homme" name="homme" domain="[('sexe', '=' , 'homme')]"/>
+                    <filter string="Femme" name="femme" domain="[('sexe', '=' , 'femme')]"/>
+
+
+                </search>
+
+            </field>
+
+        </record>
+
+        <!-- Kanban view -->
+
+        <record id="view_participant_kanban" model="ir.ui.view">
+            <field name="name">participant.formation.kanban</field>
+            <field name="model">formation.participant</field>
+            <field name="arch" type="xml">
+                <kanban default_order="id asc">
                     <field name="id_participant"/>
                     <field name="nom_participant"/>
                     <field name="prenom_participant"/>
                     <field name="niveau_etude"/>
-                        </group>
-                        <group>
                     <field name="email"/>
                     <field name="phone"/>
                     <field name="sexe"/>
                     <field name="type"/>
                     <field name="nom_société"/>
                     <field name="mode_paiement"/>
-                        </group>
-                    </group>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <ul>
+                                        <li>
 
-                </form>
+
+
+                                           ID: <field name="id_participant"/>
+                                        </li>
+                                        <li>
+
+
+
+                                           Nom: <field name="nom_participant"/>
+                                        </li>
+                                        <li>
+
+
+
+                                           Prénom: <field name="prenom_participant"/>
+                                        </li>
+                                        <li>
+
+
+
+                                           Sexe: <field name="sexe"/>
+                                        </li>
+                                        <li>
+
+
+
+                                           Email: <field name="email"/>
+
+                                        </li>
+
+                                       <li>
+                                           Phone: <field name="phone"/>
+                                       </li>
+
+                                        <li>
+                                            Niveau Etude: <field name="niveau_etude"/>
+                                        </li>
+
+                                        <li>
+                                            Type: <field name="type"/>
+                                        </li>
+
+                                        <li>
+                                            Nom Société: <field name="nom_société"/>
+                                        </li>
+
+                                        <li>
+                                            Mode paiement: <field name="mode_paiement"/>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 
@@ -59,6 +162,11 @@
             <field name="name">Participant</field>
             <field name="res_model">formation.participant</field>
             <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    créez votre premier Participant!
+                </p>
+            </field>
         </record>
 
 

@@ -9,9 +9,74 @@
                 <tree>
                     <field name="id_theme"/>
                     <field name="designation"/>
+                    <field name="description"/>
 
 
                 </tree>
+            </field>
+        </record>
+
+        <!-- search view  -->
+
+        <record model="ir.ui.view" id="theme_search_view">
+            <field name="name">theme search</field>
+            <field name="model">formation.theme</field>
+            <field name="arch" type="xml">
+                <search string="Theme">
+                    <field name="id_theme"/>
+                    <field name="designation"/>
+
+                </search>
+
+            </field>
+
+        </record>
+
+                <!-- Kanban view -->
+
+        <record id="view_theme_kanban" model="ir.ui.view">
+            <field name="name">theme.formation.kanban</field>
+            <field name="model">formation.theme</field>
+            <field name="arch" type="xml">
+                <kanban default_order="id asc">
+                   <field name="id_theme"/>
+                    <field name="designation"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <ul>
+                                        <li>
+
+
+
+                                           ID: <field name="id_theme"/>
+                                        </li>
+                                        <li>
+
+
+
+                                           Designation: <field name="designation"/>
+                                        </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 
@@ -25,7 +90,9 @@
                 <form>
                     <group>
                         <field name="id_theme"/>
-                    <field name="designation"/>
+                        <field name="designation"/>
+                        <field name="description"/>
+
 
                     </group>
 
@@ -40,6 +107,11 @@
             <field name="name">Theme</field>
             <field name="res_model">formation.theme</field>
             <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    créez votre premier Théme!
+                </p>
+            </field>
         </record>
 
 
@@ -58,7 +130,6 @@
               </field>
             </record>
         -->
-
 
 
         <!-- menu categories -->

@@ -9,6 +9,7 @@ class theme(models.Model):
 
      id_theme = fields.Integer('Id Theme')
      designation = fields.Char('Designation')
+     description = fields.Char('Description')
 
 
 
