@@ -19,6 +19,8 @@ class sessionformation(models.Model):
      date_fin = fields.Datetime(string="Date Fin Session", store=True, compute='_get_end_date', inverse='_set_end_date')
      prix = fields.Integer('prix session Formation')
 
+
+
      state = fields.Selection([('En Cours', 'en cours'), ('Done', 'done'), ('Prochainement', 'prochainement')], string="Status")
 
 
