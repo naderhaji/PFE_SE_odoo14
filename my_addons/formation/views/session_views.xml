@@ -1,5 +1,6 @@
 <odoo>
     <data>
+
         <!-- explicit list view definition -->
 
         <record model="ir.ui.view" id="session_list_view">
@@ -30,6 +31,8 @@
             <field name="model">formation.formation</field>
             <field name="arch" type="xml">
                 <form>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                    attrs="{'invisible': [('active', '=', True)]}"/>
                     <header>
                         <field name="state" widget="statusbar" options="{'clickable' : '1'}" />
                     </header>
@@ -47,6 +50,7 @@
                                 <field name="date_fin"/>
                                 <field name="periode"/>
                                 <field name="prix"/>
+                                <field name="active" invisible="1"/>
                             </group>
                         </group>
                     </sheet>
@@ -140,11 +144,15 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="nom_session_formation"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
                 </search>
 
             </field>
 
         </record>
+
+
         <!-- actions opening views on models -->
 
         <record model="ir.actions.act_window" id="session_action_window">

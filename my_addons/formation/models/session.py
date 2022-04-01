@@ -10,7 +10,7 @@ class sessionformation(models.Model):
      _description = 'formation.formation'
 
      id_session_formation = fields.Integer('Id Session Formation')
-     nom_session_formation = fields.Char('Nom Session Formation')
+     nom_session_formation = fields.Char('Nom Session Formation', required=True, tracking=True)
      niveau_session_formation = fields.Integer('Niveau Session Formation')
      nombre_participant = fields.Integer('Nombre Participant')
      objectif_global = fields.Char('Objectif Global')
@@ -21,8 +21,9 @@ class sessionformation(models.Model):
 
 
 
-     state = fields.Selection([('En Cours', 'en cours'), ('Done', 'done'), ('Prochainement', 'prochainement')], string="Status")
+     state = fields.Selection([('En Cours', 'en cours'), ('Done', 'done'), ('Prochainement', 'prochainement')], string="Status", tracking=True)
 
+     active = fields.Boolean(string="Active", default=True)
 
      @api.depends('date_debut','periode')
      def _get_end_date(self):
