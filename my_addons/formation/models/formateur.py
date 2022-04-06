@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class formateur(models.Model):
      _name = 'formation.formateur'
      _description = 'formation.formateur'
+     _rec_name = 'nom_formateur'
 
      id_formateur = fields.Integer('Id Formateur')
      nom_formateur = fields.Char('Nom Formateur')

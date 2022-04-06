@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class participant(models.Model):
      _name = 'formation.participant'
      _description = 'formation.participant'
+     _rec_name = 'nom_participant'
 
      id_participant = fields.Integer('Id Participant')
      nom_participant = fields.Char('Nom Participant')
