@@ -83,7 +83,7 @@
 
         <!-- explicit form view definition -->
 
-        <record model="ir.ui.view" id="formateur_form_view">
+        <record model="ir.ui.view" id="theme_form_view">
             <field name="name">Theme Form</field>
             <field name="model">formation.theme</field>
             <field name="arch" type="xml">
@@ -139,7 +139,7 @@
 
         <!-- actions -->
 
-        <menuitem name="List of Formateur" id="theme_formation_list" parent="Theme_formation_cat"
+        <menuitem name="Liste de Theme" id="theme_formation_list" parent="Theme_formation_cat"
                   action="theme_action_window"/>
         <!--   <menuitem name="Server to list" id="formation" parent="formation.menu_2"
                      action="formation.action_server"/>

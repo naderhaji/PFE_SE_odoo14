@@ -7,7 +7,7 @@
             <field name="model">formation.participant</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="id_participant"/>
+                    <field name="participant_id"/>
                     <field name="nom_participant"/>
                     <field name="prenom_participant"/>
                     <field name="niveau_etude"/>
@@ -17,6 +17,7 @@
                     <field name="type"/>
                     <field name="nom_société"/>
                     <field name="mode_paiement"/>
+                    <field name="session_formation_id"/>
 
 
                 </tree>
@@ -33,10 +34,11 @@
                 <form>
                     <group>
                         <group>
-                            <field name="id_participant"/>
+                            <field name="participant_id"/>
                             <field name="nom_participant"/>
                             <field name="prenom_participant"/>
                             <field name="niveau_etude"/>
+                            <field name="session_formation_id"/>
                         </group>
                         <group>
                             <field name="email"/>
@@ -79,7 +81,7 @@
             <field name="model">formation.participant</field>
             <field name="arch" type="xml">
                 <kanban default_order="id asc">
-                    <field name="id_participant"/>
+                    <field name="participant_id"/>
                     <field name="nom_participant"/>
                     <field name="prenom_participant"/>
                     <field name="niveau_etude"/>
@@ -98,7 +100,7 @@
 
 
 
-                                           ID: <field name="id_participant"/>
+                                           ID: <field name="participant_id"/>
                                         </li>
                                         <li>
 
@@ -194,7 +196,7 @@
 
         <!-- actions -->
 
-        <menuitem name="List of Participant" id="participant_formation_list" parent="Participant_formation_cat"
+        <menuitem name="Liste de Participant" id="participant_formation_list" parent="Participant_formation_cat"
                   action="participant_action_window"/>
         <!--   <menuitem name="Server to list" id="formation" parent="formation.menu_2"
                      action="formation.action_server"/>

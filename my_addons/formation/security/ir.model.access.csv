@@ -3,3 +3,4 @@ access_formation_formation,formation.formation,model_formation_formation,base.gr
 access_formation_formateur,formation.formateur,model_formation_formateur,base.group_user,1,1,1,1
 access_formation_theme,formation.theme,model_formation_theme,base.group_user,1,1,1,1
 access_formation_participant,formation.participant,model_formation_participant,base.group_user,1,1,1,1
+access_formation_depense,formation.depense,model_formation_depense,base.group_user,1,1,1,1
