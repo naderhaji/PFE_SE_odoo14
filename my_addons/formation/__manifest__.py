@@ -28,7 +28,12 @@
         'views/formateur_views.xml',
         'views/theme_views.xml',
         'views/participant_views.xml',
+        'views/templates.xml',
 
+    ],
+
+    "qweb": [
+        'static/src/xml/qweb_template.xml',
     ],
 
     # only loaded in demonstration mode

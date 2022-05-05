@@ -16,7 +16,6 @@
                     <field name="sexe"/>
                     <field name="type"/>
                     <field name="nom_société"/>
-                    <field name="mode_paiement"/>
                     <field name="session_formation_id"/>
 
 
@@ -32,6 +31,7 @@
             <field name="model">formation.participant</field>
             <field name="arch" type="xml">
                 <form>
+                    <sheet>
                     <group>
                         <group>
                             <field name="participant_id"/>
@@ -46,9 +46,15 @@
                             <field name="sexe"/>
                             <field name="type"/>
                             <field name="nom_société"/>
-                            <field name="mode_paiement"/>
+                            <field name="payment_id"/>
                         </group>
                     </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
 
                 </form>
             </field>
@@ -90,7 +96,6 @@
                     <field name="sexe"/>
                     <field name="type"/>
                     <field name="nom_société"/>
-                    <field name="mode_paiement"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_global_click">
@@ -144,9 +149,7 @@
                                             Nom Société: <field name="nom_société"/>
                                         </li>
 
-                                        <li>
-                                            Mode paiement: <field name="mode_paiement"/>
-                                        </li>
+
 
                                     </ul>
                                 </div>
@@ -201,5 +204,75 @@
         <!--   <menuitem name="Server to list" id="formation" parent="formation.menu_2"
                      action="formation.action_server"/>
        -->
+
+
+        <!-- ///////////////////////////////////////// Payment ////////////////////////////////////// -->
+
+        <!-- explicit list view definition -->
+
+
+         <record model="ir.ui.view" id="payment_list_view">
+             <!--<xpath expr="//tree" position="attributes">
+                    <attribute name="banner_route"></attribute>
+                </xpath> -->
+            <field name="name">Payment list</field>
+            <field name="model">formation.payment</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="payment_id"/>
+                    <field name="mode_paiement"/>
+                    <field name="montant_paye"/>
+                    <field name="montant_restant"/>
+                    <field name="expected_to_be_payed"/>
+                    <field name="participant_id"/>
+
+
+
+                </tree>
+            </field>
+        </record>
+
+<!--icon="fa-money" -->
+        <!-- explicit form view definition -->
+
+        <record model="ir.ui.view" id="payment_form_view">
+            <field name="name">Payment Form</field>
+            <field name="model">formation.payment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="payment_id"/>
+                            <field name="mode_paiement"/>
+                            <field name="montant_paye"/>
+                        </group>
+                        <group>
+                            <field name="montant_restant"/>
+                            <field name="expected_to_be_payed"/>
+                            <field name="participant_id"/>
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="payment_action_window">
+            <field name="name">Payment</field>
+            <field name="res_model">formation.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    créez votre premier Payment!
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Payments" id="payment_list" parent="Participant_formation_cat"
+                  action="payment_action_window"/>
+
+
     </data>
 </odoo>

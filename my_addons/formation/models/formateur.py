@@ -17,6 +17,10 @@ class formateur(models.Model):
      email = fields.Char('Email')
      phone = fields.Char('Phone')
 
+     session_formation_id = fields.Many2one('formation.formation', "Session")
+
+     Theme_id = fields.Many2one('formation.theme', "Theme")
+
 
 
 

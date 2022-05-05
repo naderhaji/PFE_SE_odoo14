@@ -15,6 +15,7 @@
                     <field name="sexe"/>
                     <field name="email"/>
                     <field name="phone"/>
+                    <field name="session_formation_id"/>
 
                 </tree>
             </field>
@@ -34,6 +35,7 @@
                             <field name="nom_formateur"/>
                             <field name="prenom_formateur"/>
                             <field name="niveau_etude"/>
+                            <field name="session_formation_id"/>
                         </group>
                         <group>
                             <field name="cin"/>

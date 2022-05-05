@@ -11,6 +11,8 @@ class theme(models.Model):
      designation = fields.Char('Designation')
      description = fields.Char('Description')
 
+     formateur_id = fields.One2many('formation.formateur', 'Theme_id')
+
 
 
 
