@@ -18,8 +18,61 @@ class participant(models.Model):
      sexe = fields.Selection([('homme', 'Homme'), ('femme', 'Femme')])
      type = fields.Selection([('individuel', 'Individuel'), ('etudiant', 'Etudiant'), ('société','Société')])
      nom_société = fields.Char('Nom Société')
+     payment = fields.Float()
      session_formation_id = fields.Many2one('formation.formation', "Session")
      payment_id = fields.One2many('formation.payment', 'participant_id')
+     borrower_id = fields.Many2one('res.partner', 'Borrower', required=True)
+
+     state = fields.Selection([('ongoing', 'Ongoing'), ('returned', 'Returned')],
+                              'State', default='ongoing', required=True)
+
+     color = fields.Integer()
+     popularity = fields.Selection(
+          [('no', 'No Demand'), ('low', 'Low Demand'), ('medium', 'Average Demand'), ('high', 'High Demand'), ])
+     tag_ids = fields.Many2many('participant.tag')
+
+     stage_id = fields.Many2one(
+          'participant.stage',
+
+          group_expand='_group_expand_stages'
+     )
+
+     @api.model
+     def _default_rent_stage(self):
+          Stage = self.env['participant.stage']
+          return Stage.search([], limit=1)
+
+     @api.model
+     def _group_expand_stages(self, stages, domain, order):
+          return stages.search([], order=order)
+
+
+class ParticipantStage(models.Model):
+     _name = 'participant.stage'
+     _order = 'sequence,name'
+
+     name = fields.Char()
+     sequence = fields.Integer()
+     fold = fields.Boolean()
+     payment_state = fields.Selection(
+          [('available', 'Available'),
+           ('borrowed', 'Borrowed'),
+           ('lost', 'Lost')],
+          'State', default="available")
+
+
+
+class ParticipantTags(models.Model):
+    _name = 'participant.tag'
+
+    name = fields.Char()
+    color = fields.Integer()
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    participant_ids = fields.One2many('formation.participant', 'borrower_id')
 
 
 

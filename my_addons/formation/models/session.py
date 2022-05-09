@@ -18,7 +18,7 @@ class sessionformation(models.Model):
      date_debut = fields.Datetime('Date Debut Session', default=fields.Date.today())
      periode = fields.Float(digits=(6, 2), help="Duration in days")
      date_fin = fields.Datetime(string="Date Fin Session", store=True, compute='_get_end_date', inverse='_set_end_date')
-     prix = fields.Integer('prix session Formation')
+     prix = fields.Float('prix session Formation')
      color = fields.Integer()
      address = fields.Char('Adresse')
      nombre_participant = fields.Integer(string='Nombre Participant', compute='_compute_nombre_participant')

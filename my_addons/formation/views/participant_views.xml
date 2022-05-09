@@ -46,7 +46,7 @@
                             <field name="sexe"/>
                             <field name="type"/>
                             <field name="nom_société"/>
-                            <field name="payment_id"/>
+                            <field name="payment"/>
                         </group>
                     </group>
                     </sheet>
@@ -82,7 +82,85 @@
 
         <!-- Kanban view -->
 
-        <record id="view_participant_kanban" model="ir.ui.view">
+         <!-- Kanban View -->
+    <record id="formation_participant_view_kanban" model="ir.ui.view">
+        <field name="name">Participant Kanban</field>
+        <field name="model">formation.participant</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" on_create="quick_create" quick_create_view="my_library.library_book_rent_view_form_minimal">
+                <field name="stage_id" />
+                <field name="color" />
+                <!--<progressbar field="popularity" colors='{"low": "success", "medium": "warning", "high": "danger"}'/> -->
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div class="oe_kanban_card oe_kanban_global_click">
+                                    <div>
+                                        <i class="fa fa-user"/>
+                                        <b>
+                                            <field name="nom_participant" />
+                                        </b>
+                                        <b>
+                                            <field name="prenom_participant" />
+                                        </b>
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-fax fa-fw"/>
+                                        <field name="phone"/>
+                                    </div>
+                                    <div class="text-muted">
+                                        <i class="fa fa-usd"/>
+                                        <field name="payment" />
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                    <span class="oe_kanban_list_many2many">
+                                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    </span>
+                                    <div>
+                                        <field name="popularity" widget="priority"/>
+                                    </div>
+                                    <div>
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--        <record id="view_participant_kanban" model="ir.ui.view">
             <field name="name">participant.formation.kanban</field>
             <field name="model">formation.participant</field>
             <field name="arch" type="xml">
@@ -158,7 +236,7 @@
                     </templates>
                 </kanban>
             </field>
-        </record>
+        </record> -->
 
 
         <!-- actions opening views on models -->
@@ -166,7 +244,7 @@
         <record model="ir.actions.act_window" id="participant_action_window">
             <field name="name">Participant</field>
             <field name="res_model">formation.participant</field>
-            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     créez votre premier Participant!

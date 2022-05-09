@@ -6,3 +6,10 @@ access_formation_participant,formation.participant,model_formation_participant,b
 access_formation_depense,formation.depense,model_formation_depense,base.group_user,1,1,1,1
 access_formation_revenu,formation.revenu,model_formation_revenu,base.group_user,1,1,1,1
 access_formation_payment,formation.payment,model_formation_payment,base.group_user,1,1,1,1
+
+acl_participant_stage,participant.stage_default,model_participant_stage,,1,0,0,0
+acl_participant_stage,participant.stage,model_participant_stage,base.group_user,1,1,1,1
+acl_participant_tags,participant.tags_default,model_participant_tag,,1,0,0,0
+acl_participant_tags,participant.tag_tags,model_participant_tag,base.group_user,1,1,1,1
+
+

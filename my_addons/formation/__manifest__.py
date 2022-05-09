@@ -29,6 +29,8 @@
         'views/theme_views.xml',
         'views/participant_views.xml',
         'views/templates.xml',
+        'reports/session_details_template.xml',
+        'reports/report.xml'
 
     ],
 
