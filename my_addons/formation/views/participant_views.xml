@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
         <!-- explicit list view definition -->
@@ -39,6 +40,7 @@
                             <field name="prenom_participant"/>
                             <field name="niveau_etude"/>
                             <field name="session_formation_id"/>
+                            <field name="stage_id"/>
                         </group>
                         <group>
                             <field name="email"/>
@@ -180,55 +182,32 @@
                                 <div class="oe_kanban_details">
                                     <ul>
                                         <li>
-
-
-
                                            ID: <field name="participant_id"/>
                                         </li>
                                         <li>
-
-
-
                                            Nom: <field name="nom_participant"/>
                                         </li>
                                         <li>
-
-
-
                                            Prénom: <field name="prenom_participant"/>
                                         </li>
                                         <li>
-
-
-
                                            Sexe: <field name="sexe"/>
                                         </li>
                                         <li>
-
-
-
                                            Email: <field name="email"/>
-
                                         </li>
-
                                        <li>
                                            Phone: <field name="phone"/>
                                        </li>
-
                                         <li>
                                             Niveau Etude: <field name="niveau_etude"/>
                                         </li>
-
                                         <li>
                                             Type: <field name="type"/>
                                         </li>
-
                                         <li>
                                             Nom Société: <field name="nom_société"/>
                                         </li>
-
-
-
                                     </ul>
                                 </div>
                             </div>

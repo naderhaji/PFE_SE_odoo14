@@ -12,10 +12,3 @@ class theme(models.Model):
      description = fields.Char('Description')
 
      formateur_id = fields.One2many('formation.formateur', 'Theme_id')
-
-
-
-
-
-
-

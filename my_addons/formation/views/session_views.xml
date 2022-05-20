@@ -10,7 +10,6 @@
             <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="context">{}</field>
-
         </record> -->
 
 
@@ -21,7 +20,7 @@
             <field name="name">Session Formation list</field>
             <field name="model">formation.formation</field>
             <field name="arch" type="xml">
-                <tree decoration-success="state == 'done'" decoration-danger="state == 'terminé'">
+                <tree expand="1" decoration-success="state == 'done'" decoration-danger="state == 'terminé'">
                     <field name="session_formation_id"/>
                     <field name="nom_session_formation"/>
                     <field name="niveau_session_formation" optional="hide"/>
@@ -97,11 +96,22 @@
 
                         </div>
 
+                        <field name="legend_blocked" invisible="1"/>
+                        <field name="legend_normal" invisible="1"/>
+                        <field name="legend_done" invisible="1"/>
+                        <widget name="web_ribbon" text="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="kanban_state" widget="state_selection" class="ml-auto float-right"/>
+
                         <div class="oe_title">
                             <h2>
                                 <field name="priority" widget="priority" class="mr-3"/>
                                 <field name="session_formation_id" readonly="1" />
                             </h2>
+                        </div>
+
+
+                        <div>
+                            <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                         </div>
 
 
@@ -113,24 +123,39 @@
                         <field name="kanban_state" widget="state_selection" class="ml-auto float-right"/> -->
 
 
-
-
-
+                        <div class="oe_title">
+                            <label for="nom_session_formation" class="oe_edit_only" string="Session Name"/>
+                            <h1>
+                                <field name="nom_session_formation" placeholder="Nom De Session De Formation"/>
+                            </h1>
+                        </div>
 
                         <group>
                             <group>
+
+
                                 <field name="session_formation_id"/>
-                                <field name="nom_session_formation"/>
                                 <field name="niveau_session_formation"/>
                                 <field name="participants_number"/>
                                 <field name="address"/>
-                                <field name="formateur_id"/>
+                                <field name="stage_id"/>
+                                <!--<field name="formateur_id"/> -->
+
+
 
                             </group>
                             <group>
-                                <field name="objectif_global"/>
-                                <field name="date_debut"/>
-                                <field name="date_fin"/>
+                                <field name="active" invisible="1"/>
+                                <label for="date_debut" string="Date"/>
+                                <div class="o_row">
+                                    <field name="date_debut" widget="daterange" nolabel="1" class="oe_inline"
+                                           options="{'related_end_date': 'date_fin'}"/>
+                                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="date_fin" widget="daterange" nolabel="1" class="oe_inline"
+                                           options="{'related_start_date': 'date_debut'}"/>
+                                </div>
+
+
                                 <field name="periode"/>
                                 <field name="prix"/>
                                 <field name="active" invisible="1"/>
@@ -152,7 +177,6 @@
                                        title="This step is done. Click to block or set in progress."
                                        aria-label="This step is done. Click to block or set in progress." role="img"/>
                                 <field name="legend_Done" nolabel="1"/>
-
                                 <p class="text-muted" colspan="2">
                                     You can also add a description to help your coworkers understand the meaning and
                                     purpose of the stage.
@@ -160,12 +184,53 @@
                                 <field name="description" placeholder="Add a description..." nolabel="1" colspan="2"/>
                             </group> -->
                         </group>
+                        <notebook>
+                            <page string="Formateur" >
+                                <group>
+                                <field name="formateur_id"></field>
+                                </group>
+                            </page>
+                            <page string="Participants">
+                                <group>
+                                <field name="participant_id"></field>
+                                </group>
+                            </page>
+                            <page string="Depenses">
+                                <group>
+                                <field name="depense_id"></field>
+                                </group>
+                            </page>
+                            <page string="Revenues">
+                                <field name="revenu_id"></field>
+                            </page>
+                            <page string="Note">
+                                <group>
+                                <field name="note"></field>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids"/>
                         <field name="activity_ids"/>
                         <field name="message_ids"/>
                     </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="session_session_form_view_quick_create" model="ir.ui.view">
+            <field name="name">session.session.form.quick_create</field>
+            <field name="model">formation.formation</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="nom_session_formation"/>
+                        <field name="date_debut"/>
+                        <field name="date_fin"/>
+                    </group>
                 </form>
             </field>
         </record>
@@ -179,25 +244,40 @@
             <field name="model">formation.formation</field>
             <field name="arch" type="xml">
 
-                <kanban class="o_session_kanban_view" default_group_by="session_formation_id"
+                <kanban class="o_session_kanban_view" default_group_by="stage_id"
                         quick_create_view="session.session_session_form_view_quick_create" sample="1">
                     <field name="nom_session_formation"/>
                     <field name="date_debut"/>
                     <field name="date_fin"/>
                     <field name="session_formation_id" options='{"group_by_tooltip": {"description": "Description"}}'/>
                     <field name="address"/>
-                    <field name="legend_Done"/>
-                    <field name="legend_Prochainement"/>
-                    <field name="legend_Terminé"/>
+                    <field name="stage_id"/>
+                    <field name="legend_blocked"/>
+                    <field name="legend_normal"/>
+                    <field name="legend_done"/>
+                    <field name="image_1920"/>
+                    <field name="id"/>
 
 
                     <templates>
                         <t t-name="kanban-box">
+
                             <div t-attf-class="d-flex flex-column p-0 oe_kanban_card oe_kanban_global_click">
                                 <div class="o_kanban_content p-0 m-0 position-relative row d-flex flex-fill">
                                     <div class="col-3 bg-primary p-2 text-center d-flex flex-column justify-content-center">
+
+                                    <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                        <div class="o_kanban_image d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('formation.formation','image_1920', record.id.raw_value, placeholder)}')">
+                                            <img class="o_kanban_image_inner_pic" t-att-src="kanban_image('formation.formation','image_1920', record.id.raw_value)"/>
+
+                                        </div>
+                                        </div>
+
                                         <div t-esc="record.date_debut.raw_value.getDate()"
                                              class="o_session_fontsize_20"/>
+
+
+
                                         <div>
                                             <t t-esc="moment(record.date_debut.raw_value).format('MMM')"/>
                                             <t t-esc="record.date_debut.raw_value.getFullYear()"/>
@@ -210,12 +290,16 @@
                                             <t t-esc="moment(record.date_fin.raw_value).format('D MMM')"/>
                                         </div>
                                     </div>
+
+
                                     <div class="col-9 py-2 px-3 d-flex flex-column justify-content-between pt-3">
+
+
 
                                         <div>
                                             <div class="o_kanban_record_title o_text_overflow"
                                                  t-att-title="record.nom_session_formation.value">
-                                                <field name="nom_session_formation"/>
+                                                <h3><field name="nom_session_formation"/></h3>
                                             </div>
                                             <div t-if="record.address.value">
                                                 <i class="fa fa-map-marker" title="Location"/>
@@ -223,6 +307,8 @@
                                                       t-esc="record.address.value"/>
                                             </div>
                                         </div>
+
+
                                         <div>
                                             <br/>
                                             <h5 class="o_session_fontsize_11 p-0">
@@ -250,6 +336,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </t>
                     </templates>
@@ -311,7 +398,6 @@
                     <field name="id_session_formation"/>
                     <field name="nom_session_formation"/>
                     <field name="niveau_session_formation"/>
-
                     <field name="nombre_participant"/>
                     <field name="objectif_global"/>
                     <field name="date_debut"/>
@@ -328,7 +414,6 @@
                                             <field name="id_session_formation"/>
                                         </li>
                                         <li>
-
                                             Name:
                                             <field name="nom_session_formation"/>
                                         </li>
@@ -341,13 +426,10 @@
                                             <field name="date_debut"/>
                                         </li>
                                         <li>
-
                                             Date Fin:
                                             <field name="date_fin"/>
-
                                         </li>
                                         <li>
-
                                             Prix:
                                             <field name="prix"/>
                                         </li>
@@ -435,6 +517,65 @@
         <!--   <menuitem name="Server to list" id="formation" parent="formation.menu_2"
                      action="formation.action_server"/>
        -->
+
+
+        <!-- ///// Session stage //////-->
+
+
+        <record id="session_stage_view_form" model="ir.ui.view">
+        <field name="name">session.stage.view.form</field>
+        <field name="model">session.stage</field>
+        <field name="arch" type="xml">
+            <form string="Events Stage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="pipe_end"/>
+                        </group>
+                        <group>
+                            <field name="fold"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    <group string="Stage Description and Tooltips">
+                        <p class="text-muted" colspan="2">
+                            You can define here labels that will be displayed for the state instead
+                            of the default labels in the kanban view.
+                        </p>
+                        <label for="legend_normal" string=" " class="o_status " title="Task in progress. Click to block or set as done." aria-label="Task in progress. Click to block or set as done." role="img"/>
+                        <field name="legend_normal" nolabel="1"/>
+                        <label for="legend_blocked" string=" " class="o_status o_status_red" title="Task is blocked. Click to unblock or set as done." aria-label="Task is blocked. Click to unblock or set as done." role="img"/>
+                        <field name="legend_blocked" nolabel="1"/>
+                        <label for="legend_done" string=" " class="o_status o_status_green" title="This step is done. Click to block or set in progress." aria-label="This step is done. Click to block or set in progress." role="img"/>
+                        <field name="legend_done" nolabel="1"/>
+
+                        <p class="text-muted" colspan="2">
+                            You can also add a description to help your coworkers understand the meaning and purpose of the stage.
+                        </p>
+                        <field name="description" placeholder="Add a description..." nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="session_stage_view_tree" model="ir.ui.view">
+        <field name="name">session.stage.view.tree</field>
+        <field name="model">session.stage</field>
+        <field name="arch" type="xml">
+            <tree string="Sessions Stage">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="session_stage_action" model="ir.actions.act_window">
+        <field name="name">Session Stages</field>
+        <field name="res_model">session.stage</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
         <!-- /////////////////Depense///////////////// -->
         <!-- depense form view -->
@@ -614,12 +755,10 @@
             <field name="name">revenu kanban</field>
             <field name="model">formation.revenu</field>
             <field name="arch" type="xml">
-
                 <kanban>
                    <field name="priority"/>
                     <field name="expected_revenue"/>
                     <field name="activity_date_deadline"/>
-
                     <field name="activity_summary"/>
                     <field name="active"/>
                     <field name="company_currency"/>
@@ -629,7 +768,6 @@
                         <t t-name="kanban-box">
                             <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
                                 <div class="o_dropdown_kanban dropdown">
-
                                     <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown"
                                        data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
                                         <span class="fa fa-ellipsis-v"/>
@@ -643,7 +781,6 @@
                                         </t> -->
                                         <!-- <ul class="oe_kanban_colorpicker" data-field="color"/>
                                     </div>
-
                                 </div>
                                  <div class="oe_kanban_content"> -->
                                     <!--<div class="o_kanban_record_title">
@@ -674,7 +811,6 @@
                                             <field name="priority" widget="priority" groups="base.group_user"/>
                                             <field name="activity_ids" widget="kanban_activity"/>
                                         </div>
-
                                     </div>-->
 
                                 <!--</div>

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import _,models, fields, api
+from odoo.exceptions import ValidationError
+
 
 
 class participant(models.Model):
@@ -21,7 +23,7 @@ class participant(models.Model):
      payment = fields.Float()
      session_formation_id = fields.Many2one('formation.formation', "Session")
      payment_id = fields.One2many('formation.payment', 'participant_id')
-     borrower_id = fields.Many2one('res.partner', 'Borrower', required=True)
+     #borrower_id = fields.Many2one('res.partner', 'Borrower', required=True)
 
      state = fields.Selection([('ongoing', 'Ongoing'), ('returned', 'Returned')],
                               'State', default='ongoing', required=True)
@@ -32,9 +34,7 @@ class participant(models.Model):
      tag_ids = fields.Many2many('participant.tag')
 
      stage_id = fields.Many2one(
-          'participant.stage',
-
-          group_expand='_group_expand_stages'
+          'participant.stage', string="payment" ,group_expand='_group_expand_stages'
      )
 
      @api.model
@@ -45,6 +45,15 @@ class participant(models.Model):
      @api.model
      def _group_expand_stages(self, stages, domain, order):
           return stages.search([], order=order)
+
+     #@api.constrains('participant_id')
+     #def check_participant_id(self):
+      #   for rec in self:
+       #      participants = self.env['formation.participant'].search([('participant_id', '=', rec.participant_id)])
+        #     if participants:
+         #        raise ValidationError (_("Id %s Already Exists" % rec.participant_id))
+
+
 
 
 class ParticipantStage(models.Model):
@@ -69,10 +78,10 @@ class ParticipantTags(models.Model):
     color = fields.Integer()
 
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
+#class ResPartner(models.Model):
+ #   _inherit = 'res.partner'
 
-    participant_ids = fields.One2many('formation.participant', 'borrower_id')
+  #  participant_ids = fields.One2many('formation.participant', 'borrower_id')
 
 
 
@@ -90,10 +99,6 @@ class payment(models.Model):
      expected_to_be_payed = fields.Char('Expected to be payed')
 
      participant_id = fields.Many2one('formation.participant', "Participant")
-
-
-
-
 
 
 
