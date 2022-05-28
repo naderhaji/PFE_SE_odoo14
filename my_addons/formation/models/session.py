@@ -30,6 +30,9 @@ class sessionformation(models.Model):
      note = fields.Text(string='Note')
      id = fields.Integer()
      image_1920 = fields.Image("Image")
+     user_id = fields.Integer()
+
+
 
 
 
@@ -49,7 +52,7 @@ class sessionformation(models.Model):
                nombre_participant = self.env['formation.participant'].search_count([('session_formation_id', '=', rec.id)])
                rec.nombre_participant = nombre_participant
 
-     #@api.multi
+
      def action_open_participants(self):
           return {
                'type': 'ir.actions.act_window',

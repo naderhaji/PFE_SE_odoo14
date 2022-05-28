@@ -19,7 +19,7 @@
     'license': 'LGPL-3',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'board'],
 
     # always loaded
     'data': [
@@ -31,6 +31,8 @@
         'views/templates.xml',
         'reports/session_details_template.xml',
         'reports/report.xml',
+        'data/mail_templates.xml',
+        'views/dashboard.xml',
 
     ],
 

@@ -11,16 +11,16 @@
                             <div class="col-xs-8">
                                 <table class="table table-condensed" style="border: 3px solid black !important;">
                                     <tr>
-                                        <!--<td width="40%">
+                                        <td width="40%">
                                             <p style="text-align:center;padding-top:10px;">
-                                                <img t-if="not o.image"
-                                                     t-att-src="'/web/static/src/img/placeholder.png'" height="140"
+                                                <img t-if="not o.image_1920"
+                                                     height="140"
                                                      border="1" width="120"/>
-                                                <img t-if="o.image"
-                                                     t-att-src="'data:image/png;base64,%s' % to_text(o.image)"
+                                                <img t-if="o.image_1920"
+                                                     t-att-src="'data:image_1920/png;base64,%s' % to_text(o.image_1920)"
                                                      height="140" border="1" width="120"/>
                                             </p>
-                                        </td> -->
+                                        </td>
                                         <td width="60%">
                                             <table>
                                                 <tr>
@@ -72,7 +72,7 @@
                                                 <tr>
                                                     <td>
                                                         <span>
-                                                            <strong>Nombre de Participants :</strong>
+                                                            <strong>Nombre de Participants Attendus</strong>
                                                         </span>
                                                     </td>
                                                     <td>
@@ -106,47 +106,47 @@
                         </div>
                         <br/>
 
-                        <!-- <t t-if="o.appointment_ids">
-                            <span>Appointment Details</span>
-                            <table class="table table-sm o_main_table" name="appointment">
-                                <thead>
-                                    <tr>
-                                        <th name="th_reference" class="text-left">
-                                            <span>Reference</span>
-                                        </th>
-                                        <th name="th_age" class="text-left">
-                                            <span>Age</span>
-                                        </th>
-                                        <th name="th_doctor" class="text-left">
-                                            <span>Doctor</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <t t-set="appointment_count" t-value="0"/>
-                                <t t-foreach="o.appointment_ids" t-as="line">
-                                    <t t-set="appointment_count" t-value="appointment_count + 1"/>
-                                    <tr>
-                                        <td>
-                                            <span t-field="line.name"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="line.age"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="line.doctor_id.doctor_name"/>
-                                        </td>
-                                    </tr>
-                                </t>
-                                <tr>
-                                    <td colspan="2">
-                                        <strong>Total Appointments</strong>
-                                    </td>
-                                    <td>
-                                        <t t-esc="appointment_count"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </t> -->
+                        <!--  <t t-if="o.session_formation_id">
+                             <span>Session De Formation</span>
+                             <table class="table table-sm o_main_table" name="session">
+                                 <thead>
+                                     <tr>
+                                         <th name="th_participants_number" class="text-left">
+                                             <span>Nombre de Participant</span>
+                                         </th>
+                                         <th name="th_date_debut" class="text-left">
+                                             <span>Date Début</span>
+                                         </th>
+                                         <th name="th_date_fin" class="text-left">
+                                             <span>Date Fin</span>
+                                         </th>
+                                     </tr>
+                                 </thead>
+                                  <t t-set="participants_number" t-value="0"/>
+                                 <t t-foreach="o.session_formation_id" t-as="line">
+                                     <t t-set="participants_number" t-value="participants_number + 1"/>
+                                     <tr>
+                                         <td>
+                                             <span t-field="line.nom_session_formation"/>
+                                         </td>
+                                         <td>
+                                             <span t-field="line.participants_number"/>
+                                         </td>
+                                         <td>
+                                             <span t-field="line.date_debut.date_fin"/>
+                                         </td>
+                                     </tr>
+                                 </t>
+                                 <tr>
+                                     <td colspan="2">
+                                         <strong>Total Session</strong>
+                                     </td>
+                                     <td>
+                                         <t t-esc="participants_number"/>
+                                     </td>
+                                 </tr>
+                             </table>
+                         </t> -->
 
                     </div>
                 </t>

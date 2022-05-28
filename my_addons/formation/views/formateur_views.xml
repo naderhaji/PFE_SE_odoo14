@@ -29,6 +29,9 @@
             <field name="model">formation.formateur</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="action_send_mail" type="object" string="Send By Email" class="oe_highlight"/>
+                    </header>
                     <group>
                         <group>
                             <field name="id_formateur"/>

@@ -126,7 +126,7 @@
                         <div class="oe_title">
                             <label for="nom_session_formation" class="oe_edit_only" string="Session Name"/>
                             <h1>
-                                <field name="nom_session_formation" placeholder="Nom De Session De Formation"/>
+                                <field name="nom_session_formation" default_focus="1" placeholder="Nom De Session De Formation"/>
                             </h1>
                         </div>
 
@@ -139,7 +139,7 @@
                                 <field name="participants_number"/>
                                 <field name="address"/>
                                 <field name="stage_id"/>
-                                <!--<field name="formateur_id"/> -->
+                                <!--<field name="formateur_id"/>-->
 
 
 
@@ -187,25 +187,25 @@
                         <notebook>
                             <page string="Formateur" >
                                 <group>
-                                <field name="formateur_id"></field>
+                                <field name="formateur_id"/>
                                 </group>
                             </page>
                             <page string="Participants">
                                 <group>
-                                <field name="participant_id"></field>
+                                <field name="participant_id"/>
                                 </group>
                             </page>
                             <page string="Depenses">
                                 <group>
-                                <field name="depense_id"></field>
+                                <field name="depense_id"/>
                                 </group>
                             </page>
                             <page string="Revenues">
-                                <field name="revenu_id"></field>
+                                <field name="revenu_id"/>
                             </page>
                             <page string="Note">
                                 <group>
-                                <field name="note"></field>
+                                <field name="note"/>
                                 </group>
                             </page>
                         </notebook>
@@ -331,6 +331,8 @@
                                             <div class="oe_kanban_bottom_right">
                                                 <field name="kanban_state" widget="state_selection"/>
 
+
+
                                             </div>
 
                                         </div>
@@ -454,6 +456,85 @@
             </field>
         </record>
 
+        <!-- Gantt view -->
+
+        <record id="view_session_gantt" model="ir.ui.view">
+        <field name="name">session gantt</field>
+        <field name="model">formation.formation</field>
+        <field name="arch" type="xml">
+            <gantt date_start="date_debut" date_stop="date_fin" string="Session" default_group_by="stage_id" color="stage_id">
+                <field name="nom_session_formation"/>
+                <field name="stage_id"/>
+                <templates>
+                    <div t-name="gantt-popover" >
+                        <ul class="pl-1 mb-0 list-unstyled">
+                            <li>
+                                <strong>Name: </strong>
+                                <t t-esc="nom_session_formation"/>
+                            </li>
+                            <li>
+                                <strong>Stage: </strong>
+                                <t t-esc="stage_id[1]"/>
+                            </li>
+                        </ul>
+                    </div>
+                </templates>
+            </gantt>
+        </field>
+    </record>
+
+        <!--- Pivot view -->
+
+
+
+
+    <record id="view_session_pivot" model="ir.ui.view">
+        <field name="model">formation.formation</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="stage_id" type="col"/>
+                <field name="nom_session_formation" type="row"/>
+                <field name="participants_number" type="row"/>
+
+            </pivot>
+        </field>
+    </record>
+
+    <!--- Activity view -->
+
+        <record id="view_session_activity" model="ir.ui.view">
+        <field name="name">session activity</field>
+        <field name="model">formation.formation</field>
+        <field name="arch" type="xml">
+            <activity string="Tasks">
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="nom_session_formation" display="full"/>
+                            <field name="stage_id" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+
+
+
+        <!--<record model="ir.ui.view" id="session_gantt_view">
+            <field name="name">session.gantt</field>
+            <field name="model">formation.formation</field>
+            <field name="arch" type="xml">
+                <gantt string="Session Gantt" date_start="date_debut" date_stop="date_fin" default_group_by="stage_id">
+
+
+                </gantt>
+
+            </field>
+
+        </record> -->
+
         <!-- search view  -->
 
         <record model="ir.ui.view" id="session_search_view">
@@ -476,13 +557,16 @@
         <record model="ir.actions.act_window" id="session_action_window">
             <field name="name">Session Formation</field>
             <field name="res_model">formation.formation</field>
-            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,gantt,form,calendar,activity,pivot,graph</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     créez votre premiére Formation!
                 </p>
             </field>
         </record>
+
+
 
 
         <!-- server action to the one above -->
@@ -718,7 +802,7 @@
                         <div class="oe_kanban_content">
                             <div class="o_kanban_record_top">
                                 <div class="o_kanban_record_headings">
-                                    <h3 class="oe_margin_bottom_8 o_kanban_record_title"></h3>
+                                    <h3 class="oe_margin_bottom_8 o_kanban_record_title"/>
                                 </div>
                             </div>
                             <div class="o_kanban_record_body">

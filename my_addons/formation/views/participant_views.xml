@@ -12,12 +12,13 @@
                     <field name="nom_participant"/>
                     <field name="prenom_participant"/>
                     <field name="niveau_etude"/>
-                    <field name="email"/>
+                    <field name="email_id"/>
                     <field name="phone"/>
                     <field name="sexe"/>
                     <field name="type"/>
                     <field name="nom_société"/>
-                    <field name="session_formation_id"/>
+                    <!--<field name="session_formation_id"/> -->
+                    <field name="session_formation_id" string="Session" invisible="context.get('default_session_formation_id',False)"/>
 
 
                 </tree>
@@ -31,19 +32,25 @@
             <field name="name">Participant Form</field>
             <field name="model">formation.participant</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Participants">
+                    <header>
+                        <button name="action_send_mail" type="object" string="Send By Email" class="oe_highlight"/>
+                    </header>
                     <sheet>
+                        <div>
+                            <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                        </div>
                     <group>
                         <group>
                             <field name="participant_id"/>
                             <field name="nom_participant"/>
                             <field name="prenom_participant"/>
                             <field name="niveau_etude"/>
-                            <field name="session_formation_id"/>
+                            <field name="session_formation_id" string="Session" invisible="context.get('default_session_formation_id',False)"/>
                             <field name="stage_id"/>
                         </group>
                         <group>
-                            <field name="email"/>
+                            <field name="email_id"/>
                             <field name="phone"/>
                             <field name="sexe"/>
                             <field name="type"/>
@@ -89,14 +96,18 @@
         <field name="name">Participant Kanban</field>
         <field name="model">formation.participant</field>
         <field name="arch" type="xml">
+
             <kanban default_group_by="stage_id" on_create="quick_create" quick_create_view="my_library.library_book_rent_view_form_minimal">
                 <field name="stage_id" />
                 <field name="color" />
+
                 <!--<progressbar field="popularity" colors='{"low": "success", "medium": "warning", "high": "danger"}'/> -->
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+
                             <div class="o_dropdown_kanban dropdown">
+
                                 <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
                                     <span class="fa fa-ellipsis-v"/>
                                 </a>
@@ -109,6 +120,9 @@
                                     </t>
                                     <ul class="oe_kanban_colorpicker" data-field="color"/>
                                 </div>
+
+
+
                             </div>
                             <div class="oe_kanban_content">
                                 <div class="oe_kanban_card oe_kanban_global_click">
@@ -130,7 +144,7 @@
                                         <field name="payment" />
                                     </div>
                                     <div>
-
+                                     <field name="image_1920"/>
                                     </div>
                                     <span class="oe_kanban_list_many2many">
                                         <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
