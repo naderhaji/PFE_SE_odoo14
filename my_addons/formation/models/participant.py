@@ -21,6 +21,10 @@ class participant(models.Model):
      sexe = fields.Selection([('homme', 'Homme'), ('femme', 'Femme')])
      type = fields.Selection([('individuel', 'Individuel'), ('etudiant', 'Etudiant'), ('société','Société')])
      nom_société = fields.Char('Nom Société')
+<<<<<<< HEAD
+=======
+     payment = fields.Float()
+>>>>>>> e82735f162d81f79611586678c58bb7d43776362
      participant_age = fields.Integer('Age', track_visibility="always", group_operator=False)
      session_formation_id = fields.Many2one('formation.formation', "Session")
      payment_id = fields.One2many('formation.payment', 'participant_id')
@@ -72,6 +76,7 @@ class participant(models.Model):
                'context': ctx,
           }
 
+<<<<<<< HEAD
 
      def action_open_payment(self):
           return {
@@ -87,6 +92,8 @@ class participant(models.Model):
 
 
 
+=======
+>>>>>>> e82735f162d81f79611586678c58bb7d43776362
           # sending the participant report to participant via email
           #print("sending mail")
           #template_id = self.env.ref('formation.participant_card_email_template').id
@@ -109,8 +116,11 @@ class participant(models.Model):
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e82735f162d81f79611586678c58bb7d43776362
 class ParticipantStage(models.Model):
      _name = 'participant.stage'
      _order = 'sequence,name'

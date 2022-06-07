@@ -42,6 +42,7 @@ class formateur(models.Model):
                'context': ctx,
           }
 
+<<<<<<< HEAD
      @api.model
      def default_get(self, fields):
           res = super(formateur, self).default_get(fields)
@@ -49,3 +50,8 @@ class formateur(models.Model):
           res['session_formation_id'] = self._context.get('active_id')
 
           return res
+=======
+
+
+
+>>>>>>> e82735f162d81f79611586678c58bb7d43776362

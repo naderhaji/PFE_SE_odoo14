@@ -32,6 +32,9 @@ class sessionformation(models.Model):
      note = fields.Text(string='Note')
      id = fields.Integer()
      image_1920 = fields.Image("Image")
+     user_id = fields.Integer()
+
+
 
 
 
