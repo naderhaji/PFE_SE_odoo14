@@ -12,7 +12,7 @@
                     <field name="nom_participant"/>
                     <field name="prenom_participant"/>
                     <field name="niveau_etude"/>
-                    <field name="email"/>
+                    <field name="email_id"/>
                     <field name="phone"/>
                     <field name="sexe"/>
                     <field name="type"/>
@@ -31,8 +31,29 @@
             <field name="name">Participant Form</field>
             <field name="model">formation.participant</field>
             <field name="arch" type="xml">
-                <form>
+                <form string="Participants">
+                    <header>
+                        <button name="action_send_mail" type="object" string="Send By Email" class="oe_highlight"/>
+                    </header>
                     <sheet>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_payment" type="object" class="oe_stat_button" icon="fa-cc-mastercard">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Payments</span>
+                                </div>
+                            </button>
+                        </div>
+
+
+
+
+
+
+
+                        <div>
+                            <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                        </div>
                     <group>
                         <group>
                             <field name="participant_id"/>
@@ -43,12 +64,12 @@
                             <field name="stage_id"/>
                         </group>
                         <group>
-                            <field name="email"/>
+                            <field name="email_id"/>
                             <field name="phone"/>
                             <field name="sexe"/>
                             <field name="type"/>
                             <field name="nom_société"/>
-                            <field name="payment"/>
+
                         </group>
                     </group>
                     </sheet>
@@ -82,21 +103,25 @@
 
         </record>
 
-        <!-- Kanban view -->
+
 
          <!-- Kanban View -->
     <record id="formation_participant_view_kanban" model="ir.ui.view">
         <field name="name">Participant Kanban</field>
         <field name="model">formation.participant</field>
         <field name="arch" type="xml">
+
             <kanban default_group_by="stage_id" on_create="quick_create" quick_create_view="my_library.library_book_rent_view_form_minimal">
                 <field name="stage_id" />
                 <field name="color" />
+
                 <!--<progressbar field="popularity" colors='{"low": "success", "medium": "warning", "high": "danger"}'/> -->
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+
                             <div class="o_dropdown_kanban dropdown">
+
                                 <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown">
                                     <span class="fa fa-ellipsis-v"/>
                                 </a>
@@ -109,6 +134,9 @@
                                     </t>
                                     <ul class="oe_kanban_colorpicker" data-field="color"/>
                                 </div>
+
+
+
                             </div>
                             <div class="oe_kanban_content">
                                 <div class="oe_kanban_card oe_kanban_global_click">
@@ -125,12 +153,12 @@
                                         <i class="fa fa-fax fa-fw"/>
                                         <field name="phone"/>
                                     </div>
-                                    <div class="text-muted">
+                                    <!--<div class="text-muted">
                                         <i class="fa fa-usd"/>
                                         <field name="payment" />
-                                    </div>
+                                    </div> -->
                                     <div>
-
+                                     <field name="image_1920"/>
                                     </div>
                                     <span class="oe_kanban_list_many2many">
                                         <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
@@ -302,11 +330,13 @@
                             <field name="payment_id"/>
                             <field name="mode_paiement"/>
                             <field name="montant_paye"/>
+                            <field name="date_payement"/>
                         </group>
                         <group>
                             <field name="montant_restant"/>
                             <field name="expected_to_be_payed"/>
                             <field name="participant_id"/>
+                            <field name="session_formation_id"/>
                         </group>
                     </group>
 

@@ -35,7 +35,7 @@
                     decoration-info="state == 'prochainement'"
                     decoration-danger="state == 'terminé'"
                     widget="badge"/>
-                    <field name="formateur_id"/>
+                    <!--<field name="formateur_id"/> -->
 
                 </tree>
             </field>
@@ -49,7 +49,6 @@
             <field name="model">formation.formation</field>
             <field name="arch" type="xml">
                 <form>
-
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
                     attrs="{'invisible': [('active', '=', True)]}"/>
                     <header>
@@ -73,6 +72,13 @@
                                 </div>
                             </button>
 
+                            <button name="action_open_formateurs" type="object" class="oe_stat_button"
+                                    icon="fa-user">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Formateur</span>
+                                </div>
+                            </button>
+
                             <button name="action_open_deponses" type="object" class="oe_stat_button"
                                     icon="fa-usd">
 
@@ -86,6 +92,14 @@
                                     icon="fa-money">
                                 <div class="o_stat_info">
                                     <span class="o_stat_text">Revenues</span>
+                                </div>
+
+                            </button>
+
+                            <button name="action_open_payment" type="object" class="oe_stat_button"
+                                    icon="fa-cc-mastercard">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Payment</span>
                                 </div>
 
                             </button>
@@ -144,7 +158,7 @@
 
 
                             </group>
-                            <group>
+                            <group string="Information Session">
                                 <field name="active" invisible="1"/>
                                 <label for="date_debut" string="Date"/>
                                 <div class="o_row">
@@ -155,9 +169,11 @@
                                            options="{'related_start_date': 'date_debut'}"/>
                                 </div>
 
-
+                                <field name="type_formation" required="1"/>
+                                <field name="catégorie_formation" required="1"/>
                                 <field name="periode"/>
-                                <field name="prix"/>
+                                <field name="prix" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="currency_id" invisible="1"/>
                                 <field name="active" invisible="1"/>
                             </group>
                             <!-- <group string="Session Description and Tooltips">
@@ -187,25 +203,31 @@
                         <notebook>
                             <page string="Formateur" >
                                 <group>
-                                <field name="formateur_id"></field>
+                                <field name="formateur_id"/>
                                 </group>
                             </page>
                             <page string="Participants">
                                 <group>
-                                <field name="participant_id"></field>
+                                <field name="participant_id"/>
                                 </group>
+                            </page>
+                            <page string="Payments">
+                                <group>
+                                    <field name="payment_id"/>
+                                </group>
+
                             </page>
                             <page string="Depenses">
                                 <group>
-                                <field name="depense_id"></field>
+                                <field name="depense_id"/>
                                 </group>
                             </page>
                             <page string="Revenues">
-                                <field name="revenu_id"></field>
+                                <field name="revenu_id"/>
                             </page>
                             <page string="Note">
                                 <group>
-                                <field name="note"></field>
+                                <field name="note"/>
                                 </group>
                             </page>
                         </notebook>
@@ -454,6 +476,85 @@
             </field>
         </record>
 
+        <!-- Gantt view -->
+
+        <record id="view_session_gantt" model="ir.ui.view">
+        <field name="name">session gantt</field>
+        <field name="model">formation.formation</field>
+        <field name="arch" type="xml">
+            <gantt date_start="date_debut" date_stop="date_fin" string="Session" default_group_by="stage_id" color="stage_id">
+                <field name="nom_session_formation"/>
+                <field name="stage_id"/>
+                <templates>
+                    <div t-name="gantt-popover" >
+                        <ul class="pl-1 mb-0 list-unstyled">
+                            <li>
+                                <strong>Name: </strong>
+                                <t t-esc="nom_session_formation"/>
+                            </li>
+                            <li>
+                                <strong>Stage: </strong>
+                                <t t-esc="stage_id[1]"/>
+                            </li>
+                        </ul>
+                    </div>
+                </templates>
+            </gantt>
+        </field>
+    </record>
+
+        <!--- Pivot view -->
+
+
+
+
+    <record id="view_session_pivot" model="ir.ui.view">
+        <field name="model">formation.formation</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="stage_id" type="col"/>
+                <field name="nom_session_formation" type="row"/>
+                <field name="participants_number" type="row"/>
+
+            </pivot>
+        </field>
+    </record>
+
+    <!--- Activity view -->
+
+        <record id="view_session_activity" model="ir.ui.view">
+        <field name="name">session activity</field>
+        <field name="model">formation.formation</field>
+        <field name="arch" type="xml">
+            <activity string="Tasks">
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="nom_session_formation" display="full"/>
+                            <field name="stage_id" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+
+
+
+        <!--<record model="ir.ui.view" id="session_gantt_view">
+            <field name="name">session.gantt</field>
+            <field name="model">formation.formation</field>
+            <field name="arch" type="xml">
+                <gantt string="Session Gantt" date_start="date_debut" date_stop="date_fin" default_group_by="stage_id">
+
+
+                </gantt>
+
+            </field>
+
+        </record> -->
+
         <!-- search view  -->
 
         <record model="ir.ui.view" id="session_search_view">
@@ -476,13 +577,16 @@
         <record model="ir.actions.act_window" id="session_action_window">
             <field name="name">Session Formation</field>
             <field name="res_model">formation.formation</field>
-            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,gantt,form,calendar,activity,pivot,graph</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     créez votre premiére Formation!
                 </p>
             </field>
         </record>
+
+
 
 
         <!-- server action to the one above -->
@@ -615,7 +719,7 @@
                     <field name="depense_equipement"/>
                     <field name="depense_aliments_boissons" optional="hide"/>
                     <field name="depense_formateur" optional="show"/>
-                    <field name="depense_totale" optional="hide"/>
+                    <field name="depense_totale"/>
                     <field name="session_formation_id"/>
                 </tree>
             </field>
@@ -718,7 +822,7 @@
                         <div class="oe_kanban_content">
                             <div class="o_kanban_record_top">
                                 <div class="o_kanban_record_headings">
-                                    <h3 class="oe_margin_bottom_8 o_kanban_record_title"></h3>
+                                    <h3 class="oe_margin_bottom_8 o_kanban_record_title"/>
                                 </div>
                             </div>
                             <div class="o_kanban_record_body">

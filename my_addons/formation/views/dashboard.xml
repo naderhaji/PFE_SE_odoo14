@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="act_session_graph" model="ir.actions.act_window">
+        <field name="name">Participant session</field>
+        <field name="res_model">formation.formation</field>
+        <field name="view_mode">graph</field>
+       <!-- <field name="view_id" ref="formation.session_graph_view"/> -->
+    </record>
+
+    <record id="act_session_calendar" model="ir.actions.act_window">
+        <field name="name">Sessions</field>
+        <field name="res_model">formation.formation</field>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="formation.session_calendar_view"/>
+    </record>
+
+    <record id="act_participant_list" model="ir.actions.act_window">
+        <field name="name">Participant</field>
+        <field name="res_model">formation.participant</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="board_session_form" model="ir.ui.view">
+        <field name="name">Session Dashboard Form</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Session Dashboard">
+                <board style="1-2">
+                    <column>
+                        <action
+                                string="Participant session"
+                                name="%(act_session_graph)d"
+                                height="150"
+                                width="510"/>
+                        <action
+                                string="Sessions"
+                                name="%(act_session_calendar)d"/>
+                    </column>
+                    <column>
+                        <action
+                                string="Participant"
+                                name="%(act_participant_list)d"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="formation_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="board_session_form"/>
+
+    </record>
+
+
+    <menuitem name="Dashboard" id="menu_dashboard" parent="formation.menu_root" action="formation_dashboard"
+              sequence="1"/>
+
+
+    <!--<menu name="Dashboard" parent="formation.menu_root" action="formation_dashboard" sequence="1"
+          id="menu_dashboard"/> -->
+
+</odoo>

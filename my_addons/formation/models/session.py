@@ -22,14 +22,20 @@ class sessionformation(models.Model):
      date_debut = fields.Datetime('Date Debut Session', default=fields.Date.today())
      periode = fields.Float(digits=(6, 2), help="Duration in days")
      date_fin = fields.Datetime(string="Date Fin Session", store=True, compute='_get_end_date', inverse='_set_end_date')
-     prix = fields.Float('prix session')
+     prix = fields.Float(string="Prix Session")
      color = fields.Integer()
      address = fields.Char('Adresse')
+     type_formation = fields.Selection([('intra', 'Intra'), ('interne', 'Interne')], string="Type Formation",)
+     catégorie_formation = fields.Selection([('onligne', 'On Ligne'), ('hybride', 'Hybride')], string="Catégorie Formation")
      nombre_participant = fields.Integer(string='Nombre Participant', compute='_compute_nombre_participant')
      priority = fields.Selection([('0', 'Normal'), ('1', 'Low'), ('2', 'High'), ('3', 'Very High')], string="Priority")
      note = fields.Text(string='Note')
      id = fields.Integer()
      image_1920 = fields.Image("Image")
+
+
+
+
 
 
 
@@ -41,21 +47,41 @@ class sessionformation(models.Model):
 
      formateur_id = fields.One2many('formation.formateur', 'session_formation_id')
 
+     payment_id = fields.One2many('formation.payment', 'session_formation_id')
 
 
+     @api.model
+     def _default_currency_id(self):
+          value = self.env['res.currency'].search([('name', '=', 'COP')],limit=1)
+          return value and value.id or False
+
+     currency_id = fields.Many2one("res.currency", string="Currency", default=_default_currency_id)
 
      def _compute_nombre_participant(self):
           for rec in self:
                nombre_participant = self.env['formation.participant'].search_count([('session_formation_id', '=', rec.id)])
                rec.nombre_participant = nombre_participant
 
-     #@api.multi
+
      def action_open_participants(self):
           return {
                'type': 'ir.actions.act_window',
                'name': 'Participants',
                'res_model': 'formation.participant',
                'domain': [('session_formation_id', '=', self.id)],
+               'context': {'default_session_formation_id': self.id},
+               'view_mode': 'tree,form',
+               'target': 'current',
+          }
+
+
+     def action_open_formateurs(self):
+          return {
+               'type': 'ir.actions.act_window',
+               'name': 'Formateurs',
+               'res_model': 'formation.formateur',
+               'domain': [('session_formation_id', '=', self.id)],
+               'context': {'default_session_formation_id': self.id},
                'view_mode': 'tree,form',
                'target': 'current',
           }
@@ -66,9 +92,28 @@ class sessionformation(models.Model):
                'name': 'Deponses',
                'res_model': 'formation.depense',
                'domain': [('session_formation_id', '=', self.id)],
+               'context': {'default_session_formation_id': self.id},
                'view_mode': 'tree,form',
                'target': 'current',
           }
+
+     def action_open_payment(self):
+          return {
+               'type': 'ir.actions.act_window',
+               'name': 'Pyaments',
+               'res_model': 'formation.payment',
+               'view_type': 'form',
+               'domain': [('session_formation_id', '=', self.id)],
+               'context': {'default_session_formation_id': self.id},
+               'view_mode': 'tree,form',
+               'target': 'current',
+          }
+
+
+
+
+
+
 
      def action_open_revenues(self):
           return {
@@ -76,6 +121,7 @@ class sessionformation(models.Model):
                'name': 'Revenues',
                'res_model': 'formation.revenu',
                'domain': [('session_formation_id', '=', self.id)],
+               'context': {'default_session_formation_id': self.id},
                'view_mode': 'tree,form',
                'target': 'current',
           }
@@ -185,14 +231,23 @@ class depenseformation(models.Model):
      _description = 'formation.depense'
 
      depense_id = fields.Char('Id Depense')
-     depense_equipement = fields.Integer('Depense Equipement')
-     depense_aliments_boissons = fields.Integer('Depense Aliments Boissons')
-     depense_formateur = fields.Integer('Depense Formateur')
-     depense_totale = fields.Integer('depense totale')
-
-
-
+     depense_equipement = fields.Float('Depense Equipement')
+     depense_aliments_boissons = fields.Float('Depense Aliments Boissons')
+     depense_formateur = fields.Float('Depense Formateur')
+     depense_totale = fields.Float(string="Depense Total")
      session_formation_id = fields.Many2one('formation.formation', "Session")
+
+
+     @api.onchange('depense_equipement', 'depense_aliments_boissons', 'depense_formateur')
+     def onchange_function(self):
+          self.depense_totale= self.depense_equipement+self.depense_formateur+self.depense_aliments_boissons
+
+
+
+
+
+
+
 
 
 

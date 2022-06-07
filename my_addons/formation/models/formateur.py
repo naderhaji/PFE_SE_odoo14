@@ -22,5 +22,30 @@ class formateur(models.Model):
      Theme_id = fields.Many2one('formation.theme', "Theme")
 
 
+     def action_send_mail(self):
+          self.ensure_one()
+          template_id = self.env.ref('formation.email_template_formateur').id
+          ctx = {
+               'default_model': 'formation.formateur',
+               'default_res_id': self.id,
+               'default_use_template': bool(template_id),
+               'default_template_id': template_id,
+               'default_composition_mode': 'comment',
+               'email_to': self.email,
+          }
+          return {
+               'type': 'ir.actions.act_window',
+               'view_type': 'form',
+               'view_mode': 'form',
+               'res_model': 'mail.compose.message',
+               'target': 'new',
+               'context': ctx,
+          }
 
+     @api.model
+     def default_get(self, fields):
+          res = super(formateur, self).default_get(fields)
 
+          res['session_formation_id'] = self._context.get('active_id')
+
+          return res
