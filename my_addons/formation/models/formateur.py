@@ -6,16 +6,17 @@ from odoo import models, fields, api
 class formateur(models.Model):
      _name = 'formation.formateur'
      _description = 'formation.formateur'
-     _rec_name = 'nom_formateur'
+     _rec_name = 'name_formateur'
 
-     id_formateur = fields.Integer('Id Formateur')
-     nom_formateur = fields.Char('Nom Formateur')
-     prenom_formateur = fields.Char('Prenom Formateur')
+     id_formateur = fields.Char('Id Formateur')
+     name_formateur = fields.Char('Name Formateur')
      niveau_etude = fields.Integer('Niveau Etude')
      cin = fields.Integer('carte identité')
      sexe = fields.Selection([('homme', 'Homme'), ('femme', 'Femme')])
      email = fields.Char('Email')
      phone = fields.Char('Phone')
+
+     color = fields.Integer()
 
      session_formation_id = fields.Many2one('formation.formation', "Session")
 
@@ -42,7 +43,6 @@ class formateur(models.Model):
                'context': ctx,
           }
 
-<<<<<<< HEAD
      @api.model
      def default_get(self, fields):
           res = super(formateur, self).default_get(fields)
@@ -50,8 +50,3 @@ class formateur(models.Model):
           res['session_formation_id'] = self._context.get('active_id')
 
           return res
-=======
-
-
-
->>>>>>> e82735f162d81f79611586678c58bb7d43776362

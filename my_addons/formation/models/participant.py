@@ -10,21 +10,16 @@ class participant(models.Model):
      _name = 'formation.participant'
      _inherit = ['mail.thread', 'mail.activity.mixin']
      _description = 'formation.participant'
-     _rec_name = 'nom_participant'
+     _rec_name = 'name_participant'
 
      participant_id = fields.Char('Id Participant')
-     nom_participant = fields.Char('Nom Participant')
-     prenom_participant = fields.Char('Prenom Participant')
+     name_participant = fields.Char('Name')
      niveau_etude = fields.Char('Niveau Etude')
      email_id = fields.Char(string="Email")
      phone = fields.Integer('Phone')
      sexe = fields.Selection([('homme', 'Homme'), ('femme', 'Femme')])
      type = fields.Selection([('individuel', 'Individuel'), ('etudiant', 'Etudiant'), ('société','Société')])
      nom_société = fields.Char('Nom Société')
-<<<<<<< HEAD
-=======
-     payment = fields.Float()
->>>>>>> e82735f162d81f79611586678c58bb7d43776362
      participant_age = fields.Integer('Age', track_visibility="always", group_operator=False)
      session_formation_id = fields.Many2one('formation.formation', "Session")
      payment_id = fields.One2many('formation.payment', 'participant_id')
@@ -32,7 +27,9 @@ class participant(models.Model):
      name_seq = fields.Char(string='Participant ID', required=True, copy=False, readonly=True,
                             index=True, default=lambda self: _('New'))
      name = fields.Char(string="Contact Number")
+     id = fields.Integer()
      image_1920 = fields.Image("Image")
+     sms = fields.Text(string="SMS", required="")
      #borrower_id = fields.Many2one('res.partner', 'Borrower', required=True)
 
      state = fields.Selection([('ongoing', 'Ongoing'), ('returned', 'Returned')],
@@ -44,7 +41,7 @@ class participant(models.Model):
      tag_ids = fields.Many2many('participant.tag')
 
      stage_id = fields.Many2one(
-          'participant.stage', string="payment" ,group_expand='_group_expand_stages'
+          'participant.stage', string="payment", group_expand='_group_expand_stages'
      )
 
      @api.model
@@ -76,7 +73,6 @@ class participant(models.Model):
                'context': ctx,
           }
 
-<<<<<<< HEAD
 
      def action_open_payment(self):
           return {
@@ -90,10 +86,26 @@ class participant(models.Model):
                'target': 'current',
           }
 
+     def send_sms(self):
+         from twilio.rest import Client
 
+         #Your ACCOUNT SID from twilio
+         account_sid = "ACaf4c43b3d27215fb913a5bef6b0b841b"
+         #Your Auth Token from twilio.com
+         auth_token = "1a086d15ad22a4bd9015cd871a3c2969"
 
-=======
->>>>>>> e82735f162d81f79611586678c58bb7d43776362
+         client = Client(account_sid, auth_token)
+
+         message = client.messages.create(
+              body="Hello from python!",
+              from_="+19403988751",
+              to=self.phone)
+
+     def main(self):
+          self.send_sms("Hello from python!")
+     if __name__== "__main__":
+          main()
+
           # sending the participant report to participant via email
           #print("sending mail")
           #template_id = self.env.ref('formation.participant_card_email_template').id
@@ -116,11 +128,8 @@ class participant(models.Model):
 
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> e82735f162d81f79611586678c58bb7d43776362
 class ParticipantStage(models.Model):
      _name = 'participant.stage'
      _order = 'sequence,name'
@@ -163,10 +172,18 @@ class payment(models.Model):
      date_payement = fields.Datetime(string="Date Payement")
      montant_restant = fields.Char('Montant Restant')
      expected_to_be_payed = fields.Char('Expected to be payed')
+     active = fields.Boolean(string="Active", default=True)
 
 
      participant_id = fields.Many2one('formation.participant', "Participant")
-     session_formation_id = fields.Many2one('formation.formation', "Session")
+
+     @api.model
+     def _get_Formation_default(self):
+          res = self.env['formation.formation'].search([('payment_id', '!=', [])], limit=1)
+          return res and res.id or False
+
+
+     session_formation_id = fields.Many2one('formation.formation', "Session",default=_get_Formation_default)
 
      @api.model
      def _default_formation(self):

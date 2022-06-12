@@ -52,6 +52,7 @@
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
                     attrs="{'invisible': [('active', '=', True)]}"/>
                     <header>
+                        <button name="etape_suivante" type="object" class="oe_highlight" string="Etape Suivante"></button>
                         <field name="state" widget="statusbar" options="{'clickable' : '1'}" />
                     </header>
                     <sheet>
@@ -140,7 +141,7 @@
                         <div class="oe_title">
                             <label for="nom_session_formation" class="oe_edit_only" string="Session Name"/>
                             <h1>
-                                <field name="nom_session_formation" default_focus="1" placeholder="Nom De Session De Formation"/>
+                                <field name="nom_session_formation" placeholder="Nom De Session De Formation"/>
                             </h1>
                         </div>
 
@@ -153,7 +154,7 @@
                                 <field name="participants_number"/>
                                 <field name="address"/>
                                 <field name="stage_id"/>
-                                <!--<field name="formateur_id"/>-->
+                                <!--<field name="formateur_id"/> -->
 
 
 
@@ -172,8 +173,9 @@
                                 <field name="type_formation" required="1"/>
                                 <field name="catégorie_formation" required="1"/>
                                 <field name="periode"/>
-                                <field name="prix" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="prix" class="fa fa-usd"/>
                                 <field name="currency_id" invisible="1"/>
+                                <field name="website" widget="url"/>
                                 <field name="active" invisible="1"/>
                             </group>
                             <!-- <group string="Session Description and Tooltips">
@@ -209,14 +211,11 @@
                             <page string="Participants">
                                 <group>
                                 <field name="participant_id"/>
-<<<<<<< HEAD
                                 </group>
                             </page>
                             <page string="Payments">
                                 <group>
                                     <field name="payment_id"/>
-=======
->>>>>>> e82735f162d81f79611586678c58bb7d43776362
                                 </group>
 
                             </page>
@@ -344,7 +343,10 @@
                                             <field name="nom_session_formation"/>
                                             <br/>
                                             Prix:
+                                            <i class="fa fa-usd"/>
                                             <field name="prix"/>
+
+
 
                                         </div>
 
@@ -356,11 +358,33 @@
                                             <div class="oe_kanban_bottom_right">
                                                 <field name="kanban_state" widget="state_selection"/>
 
-
-
                                             </div>
 
                                         </div>
+                                        <div class="row mt3">
+                                        <div class="col-4 border-right">
+                                            <a name="action_open_participants" type="object" class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-light">Participant</span>
+
+                                            </a>
+                                        </div>
+
+                                        <div class="col-4 border-right">
+                                            <a name="action_open_formateurs" type="object" class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-light">Formateur</span>
+
+                                            </a>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <a name="action_open_payment" type="object" class="d-flex flex-column align-items-center">
+                                                <span class="font-weight-light">Payment</span>
+
+                                            </a>
+                                        </div>
+
+                                    </div>
+
                                     </div>
                                 </div>
 
@@ -696,12 +720,22 @@
                 <form string="Depense Form">
                     <sheet>
                         <group>
+                        <group>
                             <field name="depense_id"/>
-                            <field name="depense_equipement"/>
-                            <field name="depense_aliments_boissons"/>
-                            <field name="depense_formateur"/>
-                            <field name="depense_totale"/>
+                            <field name="depense_loyer" class="fa fa-usd"/>
+                            <field name="facture_electrcité_eau" class="fa fa-usd"/>
+                            <field name="depense_aliments_boissons" class="fa fa-usd" />
+                            <field name="facture_telecom" class="fa fa-usd"/>
+                        </group>
+                        <group>
+                            <field name="depense_support_cours" class="fa fa-usd"/>
+                            <field name="depense_location_voiture" class="fa fa-usd"/>
+                            <field name="depense_parking_voiture" class="fa fa-usd"/>
+                            <field name="depenses_personnelles" class="fa fa-usd"/>
+                            <field name="depense_formateur" class="fa fa-usd"/>
+                            <field name="depense_totale" class="fa fa-usd"/>
                             <field name="session_formation_id"/>
+                        </group>
                         </group>
                     </sheet>
 
@@ -721,11 +755,17 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="depense_id"/>
-                    <field name="depense_equipement"/>
-                    <field name="depense_aliments_boissons" optional="hide"/>
-                    <field name="depense_formateur" optional="show"/>
-                    <field name="depense_totale"/>
-                    <field name="session_formation_id"/>
+                            <field name="depense_loyer" class="fa fa-usd"/>
+                            <field name="facture_electrcité_eau" class="fa fa-usd"/>
+                            <field name="depense_aliments_boissons" class="fa fa-usd" />
+                            <field name="facture_telecom" class="fa fa-usd"/>
+                            <field name="depense_support_cours" class="fa fa-usd"/>
+                            <field name="depense_location_voiture" class="fa fa-usd"/>
+                            <field name="depense_parking_voiture" class="fa fa-usd"/>
+                            <field name="depenses_personnelles" class="fa fa-usd"/>
+                            <field name="depense_formateur" class="fa fa-usd"/>
+                            <field name="depense_totale" class="fa fa-usd"/>
+                            <field name="session_formation_id"/>
                 </tree>
             </field>
         </record>
@@ -763,13 +803,13 @@
                             <group>
 
                                 <field name="revenu_id"/>
-                                <field name="revenu_total"/>
-                                <field name="revenu_net"/>
-                                <field name="payment_total_participant"/>
+                                <field name="revenu_total" class="fa fa-usd"/>
+                                <field name="revenu_net" class="fa fa-usd"/>
+                                <field name="payment_total_participant" class="fa fa-usd"/>
                             </group>
                             <group>
-                                <field name="deponse_total"/>
-                                <field name="expected_revenue"/>
+                                <field name="deponse_total" class="fa fa-usd"/>
+                                <field name="expected_revenue" class="fa fa-usd"/>
                                 <field name="session_formation_id"/>
                             </group>
 
@@ -786,11 +826,11 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="revenu_id"/>
-                    <field name="revenu_total"/>
-                    <field name="revenu_net" optional="hide"/>
-                    <field name="payment_total_participant" optional="show"/>
-                    <field name="deponse_total" optional="hide"/>
-                    <field name="expected_revenue"/>
+                    <field name="revenu_total" class="fa fa-usd"/>
+                    <field name="revenu_net" class="fa fa-usd" optional="hide"/>
+                    <field name="payment_total_participant" class="fa fa-usd" optional="show"/>
+                    <field name="deponse_total" class="fa fa-usd" optional="hide"/>
+                    <field name="expected_revenue" class="fa fa-usd"/>
                     <field name="session_formation_id"/>
                 </tree>
             </field>

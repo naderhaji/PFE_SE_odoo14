@@ -9,16 +9,14 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="participant_id"/>
-                    <field name="nom_participant"/>
-                    <field name="prenom_participant"/>
+                    <field name="name_participant"/>
                     <field name="niveau_etude"/>
                     <field name="email_id"/>
                     <field name="phone"/>
                     <field name="sexe"/>
                     <field name="type"/>
                     <field name="nom_société"/>
-                    <!--<field name="session_formation_id"/> -->
-                    <field name="session_formation_id" string="Session" invisible="context.get('default_session_formation_id',False)"/>
+                    <field name="session_formation_id"/>
 
 
                 </tree>
@@ -37,7 +35,6 @@
                         <button name="action_send_mail" type="object" string="Send By Email" class="oe_highlight"/>
                     </header>
                     <sheet>
-<<<<<<< HEAD
 
                         <div class="oe_button_box" name="button_box">
                             <button name="action_open_payment" type="object" class="oe_stat_button" icon="fa-cc-mastercard">
@@ -53,23 +50,20 @@
 
 
 
-=======
->>>>>>> e82735f162d81f79611586678c58bb7d43776362
                         <div>
                             <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                         </div>
                     <group>
                         <group>
                             <field name="participant_id"/>
-                            <field name="nom_participant"/>
-                            <field name="prenom_participant"/>
+                            <field name="name_participant"/>
                             <field name="niveau_etude"/>
-                            <field name="session_formation_id" string="Session" invisible="context.get('default_session_formation_id',False)"/>
+                            <field name="session_formation_id"/>
                             <field name="stage_id"/>
                         </group>
                         <group>
-                            <field name="email_id"/>
-                            <field name="phone"/>
+                            <field name="email_id" widget="email"/>
+                            <field name="phone" widget="phone"/>
                             <field name="sexe"/>
                             <field name="type"/>
                             <field name="nom_société"/>
@@ -94,8 +88,7 @@
             <field name="model">formation.participant</field>
             <field name="arch" type="xml">
                 <search string="Participant">
-                    <field name="nom_participant"/>
-                    <field name="prenom_participant"/>
+                    <field name="name_participant"/>
                     <separator/>
                     <filter string="Homme" name="homme" domain="[('sexe', '=' , 'homme')]"/>
                     <filter string="Femme" name="femme" domain="[('sexe', '=' , 'femme')]"/>
@@ -118,11 +111,21 @@
             <kanban default_group_by="stage_id" on_create="quick_create" quick_create_view="my_library.library_book_rent_view_form_minimal">
                 <field name="stage_id" />
                 <field name="color" />
-
+                <field name="image_1920"/>
+                <field name="id"/>
                 <!--<progressbar field="popularity" colors='{"low": "success", "medium": "warning", "high": "danger"}'/> -->
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="o_kanban_image d-none d-md-block"
+                                     t-attf-style="background-image:url('#{kanban_image('formation.participant','image_1920', record.id.raw_value, placeholder)}')">
+                                    <img class="o_kanban_image_inner_pic"
+                                         t-att-src="kanban_image('formation.participant','image_1920', record.id.raw_value)"/>
+                                </div>
+                                </div>
+
 
                             <div class="o_dropdown_kanban dropdown">
 
@@ -141,16 +144,14 @@
 
 
 
+
                             </div>
                             <div class="oe_kanban_content">
                                 <div class="oe_kanban_card oe_kanban_global_click">
                                     <div>
                                         <i class="fa fa-user"/>
                                         <b>
-                                            <field name="nom_participant" />
-                                        </b>
-                                        <b>
-                                            <field name="prenom_participant" />
+                                            <field name="name_participant" />
                                         </b>
                                     </div>
                                     <div>
@@ -161,9 +162,7 @@
                                         <i class="fa fa-usd"/>
                                         <field name="payment" />
                                     </div> -->
-                                    <div>
-                                     <field name="image_1920"/>
-                                    </div>
+
                                     <span class="oe_kanban_list_many2many">
                                         <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                                     </span>
@@ -174,6 +173,53 @@
                                         <field name="activity_ids" widget="kanban_activity"/>
                                     </div>
                                 </div>
+
+                                <div class="row mt3">
+
+                                    <div class="col-4">
+                                        <a name="action_send_mail" type="object"
+                                           class="d-flex flex-column align-items-center">
+                                            <span class="font-weight-normal">Email</span>
+
+                                        </a>
+
+                                        <div class="oe_kanban_content">
+                                        <div class="o_kanban_record_bottom">
+
+                                            <div class="oe_kanban_bottom_right">
+                                                <a title="Chat" icon="fa-comments" class="ml8 o_employee_chat_btn"
+                                                   role="button">
+                                                    <i class="fa fa-comments"/>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    </div>
+
+
+                                    <a name="send_sms" type="object"
+                                           class="d-flex flex-column align-items-center">
+                                            <span class="font-weight-normal">SMS</span>
+
+                                        </a>
+
+
+
+                                        <a name="action_open_payment" type="object"
+                                           class="d-flex flex-column align-items-center">
+                                            <span class="font-weight-normal">Payment</span>
+
+                                        </a>
+
+
+
+
+
+                                </div>
+
+
                             </div>
                         </div>
                     </t>
@@ -314,6 +360,7 @@
                     <field name="montant_restant"/>
                     <field name="expected_to_be_payed"/>
                     <field name="participant_id"/>
+                    <field name="active" invisible="1"/>
 
 
 
@@ -341,11 +388,28 @@
                             <field name="expected_to_be_payed"/>
                             <field name="participant_id"/>
                             <field name="session_formation_id"/>
+                            <field name="active" invisible="1"/>
                         </group>
                     </group>
 
                 </form>
             </field>
+        </record>
+
+        <!-- search view  -->
+
+        <record model="ir.ui.view" id="payment_search_view">
+            <field name="name">payment search</field>
+            <field name="model">formation.payment</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="session_formation_id"/>
+                    <separator/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                </search>
+
+            </field>
+
         </record>
 
         <!-- actions opening views on models -->

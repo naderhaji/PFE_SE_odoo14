@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from datetime import timedelta
+
+
 from odoo import _,models, fields, api
+
 
 
 class sessionformation(models.Model):
@@ -26,15 +29,13 @@ class sessionformation(models.Model):
      color = fields.Integer()
      address = fields.Char('Adresse')
      type_formation = fields.Selection([('intra', 'Intra'), ('interne', 'Interne')], string="Type Formation",)
-     catégorie_formation = fields.Selection([('onligne', 'On Ligne'), ('hybride', 'Hybride')], string="Catégorie Formation")
+     catégorie_formation = fields.Selection([('enligne', 'EnLigne'), ('présentielle', 'Présentielle'), ('hybride', 'Hybride')], string="Catégorie Formation")
      nombre_participant = fields.Integer(string='Nombre Participant', compute='_compute_nombre_participant')
      priority = fields.Selection([('0', 'Normal'), ('1', 'Low'), ('2', 'High'), ('3', 'Very High')], string="Priority")
      note = fields.Text(string='Note')
      id = fields.Integer()
      image_1920 = fields.Image("Image")
-     user_id = fields.Integer()
-
-
+     website = fields.Char("WebSite")
 
 
 
@@ -153,7 +154,7 @@ class sessionformation(models.Model):
      #kanban_state_label = fields.Char(string='Kanban State Label', compute='_compute_kanban_state_label', store=True, tracking=True)
 
 
-     state = fields.Selection([('En Cours', 'en cours'), ('Done', 'done'), ('Terminé', 'terminé'), ('Prochainement', 'prochainement')], string="Status", tracking=True)
+     state = fields.Selection([('Prochainement', 'prochainement'), ('En Cours', 'en cours'), ('Done', 'done'), ('Terminé', 'terminé')], string="Status", tracking=True)
 
      def action_en_cours(self):
           self.state = 'en cours'
@@ -166,6 +167,20 @@ class sessionformation(models.Model):
 
      def action_prochainement(self):
           self.state = 'prochainement'
+
+     def etape_suivante(self):
+          self.ensure_one()
+          if self.state == 'Prochainement':
+               return self.write({'state': 'En Cours'})
+          elif self.state == 'En Cours':
+               return self.write({'state': 'Done'})
+          elif self.state == 'Done':
+               return self.write({'state': 'Terminé'})
+          #else:
+           #    raise ValidationError('Session Déjà Terminé !')
+          #else:
+               #from quorum.exceptions import ValidationError
+               #raise ValidationError('Session Déjà Terminé !')
 
      active = fields.Boolean(string="Active", default=True)
 
@@ -232,18 +247,24 @@ class SessionStage(models.Model):
 class depenseformation(models.Model):
      _name = 'formation.depense'
      _description = 'formation.depense'
+     _rec_name = 'depense_id'
 
      depense_id = fields.Char('Id Depense')
-     depense_equipement = fields.Float('Depense Equipement')
+     depense_loyer = fields.Float('Depense Loyer')
      depense_aliments_boissons = fields.Float('Depense Aliments Boissons')
+     facture_electrcité_eau = fields.Float('Depense Eau et Electricité')
+     facture_telecom = fields.Float('Facture Telecom')
+     depense_support_cours = fields.Float('Depense Support Cours')
+     depense_location_voiture = fields.Float('Depense Location Voiture')
+     depense_parking_voiture = fields.Float('Depense Parking Voiture')
+     depenses_personnelles = fields.Float('Depense Personnelles')
      depense_formateur = fields.Float('Depense Formateur')
      depense_totale = fields.Float(string="Depense Total")
      session_formation_id = fields.Many2one('formation.formation', "Session")
 
-
-     @api.onchange('depense_equipement', 'depense_aliments_boissons', 'depense_formateur')
+     @api.onchange('depense_loyer', 'depense_aliments_boissons', 'facture_electrcité_eau', 'facture_telecom', 'depense_formateur', 'depense_support_cours', 'depense_location_voiture', 'dpense_parking_voiture', 'depenses_personnelles')
      def onchange_function(self):
-          self.depense_totale= self.depense_equipement+self.depense_formateur+self.depense_aliments_boissons
+          self.depense_totale = self.depense_loyer + self.depense_aliments_boissons + self.facture_electrcité_eau + self.facture_telecom + self.depense_formateur + self.depense_support_cours + self.depense_location_voiture + self.depense_parking_voiture + self.depenses_personnelles
 
 
 
