@@ -12,23 +12,17 @@ class formateur(models.Model):
      name_formateur = fields.Char('Name Formateur')
      niveau_etude = fields.Integer('Niveau Etude')
      cin = fields.Integer('carte identité')
-     sexe = fields.Selection([('homme', 'Homme'), ('femme', 'Femme')])
+     sexe = fields.Selection([('homme', 'Homme'), ('femme', 'Femme')], string="Sexe")
      email = fields.Char('Email')
      phone = fields.Char('Phone')
      image_1920 = fields.Image("Image")
      id = fields.Integer()
      color = fields.Integer()
 
-     color = fields.Integer()
-
      session_formation_id = fields.Many2one('formation.formation', "Session")
 
      Theme_id = fields.Many2one('formation.theme', "Theme")
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
      def action_send_mail(self):
           self.ensure_one()
           template_id = self.env.ref('formation.email_template_formateur').id
@@ -48,6 +42,21 @@ class formateur(models.Model):
                'target': 'new',
                'context': ctx,
           }
+
+     def send_sms(self):
+         from twilio.rest import Client
+
+         #Your ACCOUNT SID from twilio
+         account_sid = "ACaf4c43b3d27215fb913a5bef6b0b841b"
+         #Your Auth Token from twilio.com
+         auth_token = "1a086d15ad22a4bd9015cd871a3c2969"
+
+         client = Client(account_sid, auth_token)
+
+         message = client.messages.create(
+              body="Cher Nous vous invitons à être présent à la Formation de la semaine prochaine.Meilleures salutations,",
+              from_="+19403988751",
+              to=self.phone)
 
      @api.model
      def default_get(self, fields):

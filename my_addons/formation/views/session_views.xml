@@ -576,17 +576,8 @@
             <field name="model">formation.formation</field>
             <field name="arch" type="xml">
                 <gantt string="Session Gantt" date_start="date_debut" date_stop="date_fin" default_group_by="stage_id">
-<<<<<<< HEAD
                 </gantt>
             </field>
-=======
-
-
-                </gantt>
-
-            </field>
-
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
         </record> -->
 
         <!-- search view  -->
@@ -739,10 +730,7 @@
                             <field name="depenses_personnelles" class="fa fa-usd"/>
                             <field name="depense_formateur" class="fa fa-usd"/>
                             <field name="depense_totale" class="fa fa-usd"/>
-<<<<<<< HEAD
                             <field name="date"/>
-=======
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
                             <field name="session_formation_id"/>
                         </group>
                         </group>
@@ -816,6 +804,20 @@
             </field>
         </record>
 
+         <!-- pivot view -->
+
+        <record id="view_depense_pivot" model="ir.ui.view">
+        <field name="model">formation.depense</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="session_formation_id" type="col"/>
+                <field name="depense_totale" type="row"/>
+                <!--<field name="payment_id" type="row"/> -->
+
+            </pivot>
+        </field>
+    </record>
+
 
 
 
@@ -847,7 +849,7 @@
         <record model="ir.actions.act_window" id="depense_action_window">
             <field name="name">Depense Formation</field>
             <field name="res_model">formation.depense</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">kanban,tree,form,pivot</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     créez votre premiére Depense !
@@ -882,10 +884,7 @@
                             <group>
                                 <field name="deponse_total" class="fa fa-usd"/>
                                 <field name="expected_revenue" class="fa fa-usd"/>
-<<<<<<< HEAD
                                 <field name="date"/>
-=======
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
                                 <field name="session_formation_id"/>
                             </group>
 
@@ -947,21 +946,10 @@
                             </div>
                         </div>
                         <div class="oe_kanban_content">
-<<<<<<< HEAD
                             <div>
                                 <strong>
                                     <field name="session_formation_id"/>
                                 </strong>
-=======
-                            <div class="o_kanban_record_top">
-                                <div class="o_kanban_record_headings">
-                                    <h3 class="oe_margin_bottom_8 o_kanban_record_title"/>
-                                </div>
-                            </div>
-                            <div class="o_kanban_record_body">
-                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                <ul id="o_revenu_actions" class="list-group list-group-horizontal"/>
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
                             </div>
                             <div class="o_kanban_record_subtitle">
 
@@ -1073,6 +1061,19 @@
             </field>
         </record>-->
 
+        <!-- pivot view -->
+
+        <record id="view_revenu_pivot" model="ir.ui.view">
+        <field name="model">formation.revenu</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="session_formation_id" type="col"/>
+                <field name="revenu_total" type="row"/>
+
+            </pivot>
+        </field>
+    </record>
+
 
 
         <!-- actions opening views on models -->
@@ -1080,7 +1081,7 @@
         <record model="ir.actions.act_window" id="revenu_action_window">
             <field name="name">Revenu</field>
             <field name="res_model">formation.revenu</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">kanban,tree,form,pivot</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     créez votre premiére Revenu !

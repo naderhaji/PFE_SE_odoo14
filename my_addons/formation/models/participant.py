@@ -16,13 +16,9 @@ class participant(models.Model):
      name_participant = fields.Char('Name')
      niveau_etude = fields.Char('Niveau Etude')
      email_id = fields.Char(string="Email")
-<<<<<<< HEAD
      phone = fields.Char('Phone')
-=======
-     phone = fields.Integer('Phone')
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
-     sexe = fields.Selection([('homme', 'Homme'), ('femme', 'Femme')])
-     type = fields.Selection([('individuel', 'Individuel'), ('etudiant', 'Etudiant'), ('société','Société')])
+     sexe = fields.Selection([('homme', 'Homme'), ('femme', 'Femme')], string="Sexe")
+     type = fields.Selection([('individuel', 'Individuel'), ('etudiant', 'Etudiant'), ('société','Société')], string="Type")
      nom_société = fields.Char('Nom Société')
      participant_age = fields.Integer('Age', track_visibility="always", group_operator=False)
      session_formation_id = fields.Many2one('formation.formation', "Session")
@@ -101,7 +97,7 @@ class participant(models.Model):
          client = Client(account_sid, auth_token)
 
          message = client.messages.create(
-              body="Hello from python!",
+              body="Cher Nous vous invitons à être présent à la Formation de la semaine prochaine.Meilleures salutations,",
               from_="+19403988751",
               to=self.phone)
 
@@ -171,8 +167,7 @@ class payment(models.Model):
      _description = 'formation.payment'
 
      payment_id = fields.Char('Id Payment')
-     mode_paiement = fields.Selection([('especes', 'Especes'), ('cheque', 'Cheque'), ('bancaires', 'Bancaires')])
-<<<<<<< HEAD
+     mode_paiement = fields.Selection([('especes', 'Especes'), ('cheque', 'Cheque'), ('bancaires', 'Bancaires')], string="Mode Paiement")
      montant_paye = fields.Integer('Montant Paye')
      date_payement = fields.Datetime(string="Date Payement")
      color = fields.Integer()
@@ -183,51 +178,21 @@ class payment(models.Model):
      active = fields.Boolean(string="Active", default=True)
 
      tag_ids = fields.Integer('Tags')
-=======
-     montant_paye = fields.Char('Montant Paye')
-     date_payement = fields.Datetime(string="Date Payement")
-     montant_restant = fields.Char('Montant Restant')
-     expected_to_be_payed = fields.Char('Expected to be payed')
-     active = fields.Boolean(string="Active", default=True)
 
 
      participant_id = fields.Many2one('formation.participant', "Participant")
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
 
      @api.model
      def _get_Formation_default(self):
           res = self.env['formation.formation'].search([('payment_id', '!=', [])], limit=1)
           return res and res.id or False
 
-     participant_id = fields.Many2one('formation.participant', "Participant")
 
-<<<<<<< HEAD
-     @api.model
-     def _get_Formation_default(self):
-          res = self.env['formation.formation'].search([('payment_id', '!=', [])], limit=1)
-          return res and res.id or False
-=======
      session_formation_id = fields.Many2one('formation.formation', "Session",default=_get_Formation_default)
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
 
      @api.model
      def _default_formation(self):
           return self.env['formation.formation'].search([], limit=1).id
-
-     session_formation_id = fields.Many2one('formation.formation', "Session",default=_get_Formation_default)
-
-<<<<<<< HEAD
-     @api.model
-     def _default_formation(self):
-          return self.env['formation.formation'].search([], limit=1).id
-=======
-     #@api.model
-     #def default_get(self, fields):
-          #res = super(payment, self).default_get(fields)
-          #if self._context.get('active_id'):
-               #res['session_formation_id'] = self._context.get('active_id')
-          #return res
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
 
 
      #@api.model

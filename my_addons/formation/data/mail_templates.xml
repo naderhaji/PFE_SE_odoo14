@@ -58,10 +58,6 @@
             </field>
             <field name="report_template" ref="report_participant_card"/>
             <field name="report_name">Participant Card_${(object.name_seq)}</field>
-<<<<<<< HEAD
-=======
-
->>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
         </record>-->
     </data>
 
