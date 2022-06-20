@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
         <!-- explicit list view definition -->
@@ -41,36 +42,42 @@
                 <kanban default_order="id asc">
                    <field name="id_theme"/>
                     <field name="designation"/>
+                    <field name="image_1920"/>
+                    <field name="id"/>
+                    <field name="color"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_global_click">
+                                <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+
+                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                        <div class="o_kanban_image d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('formation.theme','image_1920', record.id.raw_value, placeholder)}')">
+                                            <img class="o_kanban_image_inner_pic" t-att-src="kanban_image('formation.theme','image_1920', record.id.raw_value)"/>
+
+                                        </div>
+                                        </div>
+
                                 <div class="oe_kanban_details">
                                     <ul>
                                         <li>
-
-
-
                                            ID: <field name="id_theme"/>
                                         </li>
                                         <li>
-
-
-
                                            Designation: <field name="designation"/>
                                         </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                        <li>
+                                           Description: <field name="description"/>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -88,6 +95,11 @@
             <field name="model">formation.theme</field>
             <field name="arch" type="xml">
                 <form>
+                    <sheet>
+                    <div>
+                        <field name="image_1920" widget="image" class="oe_avatar"
+                               options="{'preview_image': 'image_128'}"/>
+                    </div>
                     <group>
                         <field name="id_theme"/>
                         <field name="designation"/>
@@ -95,6 +107,7 @@
 
 
                     </group>
+                    </sheet>
 
                 </form>
             </field>
@@ -106,7 +119,7 @@
         <record model="ir.actions.act_window" id="theme_action_window">
             <field name="name">Theme</field>
             <field name="res_model">formation.theme</field>
-            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_mode">kanban,form,tree</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     créez votre premier Théme!

@@ -7,15 +7,11 @@ class theme(models.Model):
      _name = 'formation.theme'
      _description = 'formation.theme'
 
-     id_theme = fields.Integer('Id Theme')
+     id_theme = fields.Char('Id Theme')
      designation = fields.Char('Designation')
      description = fields.Char('Description')
+     id = fields.Integer()
+     image_1920 = fields.Image("Image")
+     color = fields.Integer()
 
      formateur_id = fields.One2many('formation.formateur', 'Theme_id')
-
-
-
-
-
-
-
