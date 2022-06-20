@@ -112,7 +112,10 @@
                 <field name="stage_id" />
                 <field name="color" />
                 <field name="image_1920"/>
+<<<<<<< HEAD
                 <field name="session_formation_id"/>
+=======
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
                 <field name="id"/>
                 <!--<progressbar field="popularity" colors='{"low": "success", "medium": "warning", "high": "danger"}'/> -->
                 <templates>
@@ -179,6 +182,10 @@
                                 </div>
 
                                 <div class="row mt3">
+<<<<<<< HEAD
+=======
+
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
                                     <div class="col-4">
                                         <a name="action_send_mail" type="object"
                                            class="d-flex flex-column align-items-center">
@@ -202,26 +209,38 @@
                                     </div>
 
 
+<<<<<<< HEAD
                                     <div class="col-4">
                                         <a name="send_sms" type="object"
+=======
+                                    <a name="send_sms" type="object"
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
                                            class="d-flex flex-column align-items-center">
                                             <span class="font-weight-normal">SMS</span>
 
                                         </a>
 
+<<<<<<< HEAD
                                     </div>
 
 
                                     <div class="col-4">
 
+=======
+
+
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
                                         <a name="action_open_payment" type="object"
                                            class="d-flex flex-column align-items-center">
                                             <span class="font-weight-normal">Payment</span>
 
                                         </a>
 
+<<<<<<< HEAD
                                     </div>
 
+=======
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
 
 
 
@@ -366,11 +385,15 @@
                     <field name="payment_id"/>
                     <field name="mode_paiement"/>
                     <field name="participant_id"/>
+<<<<<<< HEAD
                     <field name="montant_restant" class="fa fa-usd"/>
                     <field name="expected_to_be_payed" class="fa fa-usd"/>
                     <field name="montant_paye" class="fa fa-usd" sum="Total payment"/>
                     <field name="active" invisible="1"/>
 
+=======
+                    <field name="active" invisible="1"/>
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
 
 
 
@@ -391,7 +414,11 @@
                         <group>
                             <field name="payment_id"/>
                             <field name="mode_paiement"/>
+<<<<<<< HEAD
                             <field name="montant_paye" class="fa fa-usd"/>
+=======
+                            <field name="montant_paye"/>
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
                             <field name="date_payement"/>
                         </group>
                         <group>
@@ -407,6 +434,7 @@
             </field>
         </record>
 
+<<<<<<< HEAD
         <!-- Kanban view -->
 
 
@@ -481,6 +509,8 @@
 
 
 
+=======
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
         <!-- search view  -->
 
         <record model="ir.ui.view" id="payment_search_view">

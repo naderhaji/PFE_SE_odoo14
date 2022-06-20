@@ -261,10 +261,13 @@ class depenseformation(models.Model):
      depense_formateur = fields.Float('Depense Formateur')
      depense_totale = fields.Float(string="Depense Total")
      session_formation_id = fields.Many2one('formation.formation', "Session")
+<<<<<<< HEAD
      priority = fields.Selection([('0', 'Normal'), ('1', 'Low'), ('2', 'High'), ('3', 'Very High')], string="Priority")
      date = fields.Datetime(string="Date")
      color = fields.Integer()
      active = fields.Boolean(string="Active", default=True)
+=======
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
 
      @api.onchange('depense_loyer', 'depense_aliments_boissons', 'facture_electrcité_eau', 'facture_telecom', 'depense_formateur', 'depense_support_cours', 'depense_location_voiture', 'dpense_parking_voiture', 'depenses_personnelles')
      def onchange_function(self):
@@ -315,4 +318,8 @@ class Revenuformation(models.Model):
 
      #name = fields.Char('Name')
 
+<<<<<<< HEAD
      session_formation_id = fields.Many2one('formation.formation', "Session")
+=======
+     session_formation_id = fields.Many2one('formation.formation', "Session")
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2

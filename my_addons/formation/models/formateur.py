@@ -19,10 +19,16 @@ class formateur(models.Model):
      id = fields.Integer()
      color = fields.Integer()
 
+     color = fields.Integer()
+
      session_formation_id = fields.Many2one('formation.formation', "Session")
 
      Theme_id = fields.Many2one('formation.theme', "Theme")
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 15ac6b326fc22bbfc6ed2d17110567d0395a3cf2
      def action_send_mail(self):
           self.ensure_one()
           template_id = self.env.ref('formation.email_template_formateur').id
