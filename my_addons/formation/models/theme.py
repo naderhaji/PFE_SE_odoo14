@@ -5,6 +5,7 @@ from odoo import models, fields, api
 
 class theme(models.Model):
      _name = 'formation.theme'
+     _inherit = ['mail.thread', 'mail.activity.mixin']
      _description = 'formation.theme'
 
      id_theme = fields.Char('Id Theme')

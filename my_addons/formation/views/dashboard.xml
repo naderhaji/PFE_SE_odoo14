@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <odoo>
-
+<!--
     <record id="act_session_graph" model="ir.actions.act_window">
         <field name="name">Participant session</field>
         <field name="res_model">formation.formation</field>
         <field name="view_mode">graph</field>
-       <!-- <field name="view_id" ref="formation.session_graph_view"/> -->
     </record>
 
     <record id="act_session_calendar" model="ir.actions.act_window">
@@ -61,8 +60,7 @@
     <menuitem name="Dashboard" id="menu_dashboard" parent="formation.menu_root" action="formation_dashboard"
               sequence="1"/>
 
+-->
 
-    <!--<menu name="Dashboard" parent="formation.menu_root" action="formation_dashboard" sequence="1"
-          id="menu_dashboard"/> -->
 
 </odoo>

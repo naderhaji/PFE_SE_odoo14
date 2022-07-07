@@ -31,7 +31,7 @@
                     <header>
                         <button name="action_send_mail" type="object" string="Send By Email" class="oe_highlight"/>
                     </header>
-
+                    <sheet>
                     <div>
                         <field name="image_1920" widget="image" class="oe_avatar"
                                options="{'preview_image': 'image_128'}"/>
@@ -50,7 +50,12 @@
                             <field name="phone" widget="phone"/>
                         </group>
                     </group>
-
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>

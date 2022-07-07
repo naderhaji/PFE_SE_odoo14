@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class formateur(models.Model):
      _name = 'formation.formateur'
      _description = 'formation.formateur'
+     _inherit = ['mail.thread', 'mail.activity.mixin']
      _rec_name = 'name_formateur'
 
      id_formateur = fields.Char('Id Formateur')
